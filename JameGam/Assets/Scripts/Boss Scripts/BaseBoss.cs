@@ -15,11 +15,15 @@ public abstract class BaseBoss : MonoBehaviour
     public string bossName;
     public float maxHealth;
     public float currentHealth;
+    public float moveSpeed;
 
     [Header("AI Settings")]
     public float stateDuration;
     private float stateTimer;
     protected BossState currentState;
+
+    public Rigidbody2D rb;
+    public Transform player;
 
     protected bool isDead = false;
 

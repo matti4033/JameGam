@@ -266,11 +266,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 815670595959291613, guid: c55615a447007514a9dcbe1cd68517bd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.68
+      value: 5.33
       objectReference: {fileID: 0}
     - target: {fileID: 815670595959291613, guid: c55615a447007514a9dcbe1cd68517bd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.35
+      value: 1.01
       objectReference: {fileID: 0}
     - target: {fileID: 815670595959291613, guid: c55615a447007514a9dcbe1cd68517bd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -304,6 +304,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 14.55
       objectReference: {fileID: 0}
+    - target: {fileID: 817386701474937404, guid: c55615a447007514a9dcbe1cd68517bd, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 677933604}
     - target: {fileID: 5406190677623369578, guid: c55615a447007514a9dcbe1cd68517bd, type: 3}
       propertyPath: m_Name
       value: Boss1
@@ -313,6 +317,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c55615a447007514a9dcbe1cd68517bd, type: 3}
+--- !u!4 &677933604 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4066050547092939371, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
+  m_PrefabInstance: {fileID: 4049872613069136104}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1065727978
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +446,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 000000005fe9e313
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
