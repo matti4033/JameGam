@@ -26,6 +26,7 @@ public class BossOne : BaseBoss
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     protected override void Update()

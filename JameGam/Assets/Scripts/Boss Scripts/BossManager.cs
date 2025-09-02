@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BossManager : MonoBehaviour
@@ -17,6 +18,29 @@ public class BossManager : MonoBehaviour
     {
         Debug.Log($"Boss {boss.bossName} defeated!");
 
-        //death effect, coroutine etc? Öppna nästa bana i overworld
+        if (GameManager.Instance != null)
+        {
+            switch (boss.bossName)
+            {
+                case "BossOne":
+                    GameManager.Instance.bossOneDead = true;
+                    break;
+                case "BossTwo":
+                    GameManager.Instance.bossTwoDead = true;
+                    break;
+                case "BossThree":
+                    GameManager.Instance.bossThreeDead = true;
+                    break;
+            }
+        }
+
+        StartCoroutine(EndFight());
+    }
+
+    private IEnumerator EndFight()
+    {
+        yield return new WaitForSeconds(1f);
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
     }
 }
