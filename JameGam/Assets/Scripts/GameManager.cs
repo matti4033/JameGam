@@ -4,6 +4,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public int bossesdead = 0;
+
     public bool bossOneDead = false;
     public bool bossTwoDead = false;
     public bool bossThreeDead = false;
@@ -12,6 +14,11 @@ public class GameManager : MonoBehaviour
     {
         if(Instance == null)
             Instance = this; DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        print(bossesdead);
     }
 
 }

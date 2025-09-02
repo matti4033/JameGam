@@ -24,12 +24,15 @@ public class BossManager : MonoBehaviour
             {
                 case "BossOne":
                     GameManager.Instance.bossOneDead = true;
+                    GameManager.Instance.bossesdead++;
                     break;
                 case "BossTwo":
                     GameManager.Instance.bossTwoDead = true;
+                    GameManager.Instance.bossesdead++;
                     break;
                 case "BossThree":
                     GameManager.Instance.bossThreeDead = true;
+                    GameManager.Instance.bossesdead++;
                     break;
             }
         }

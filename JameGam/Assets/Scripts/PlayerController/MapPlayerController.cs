@@ -34,17 +34,15 @@ public class MapPlayerController : MonoBehaviour
 
     public void OnInteract(InputValue value)
     {
-        Debug.Log("asdasdad");
         if (MattiIsPro)
         {
-            Debug.Log("PRESSED");
-            SceneManager.LoadScene("Matti");
+            GameManager.Instance.bossesdead++;
+            //SceneManager.LoadScene("Matti");
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("IN THE AREA");
         enterLevelText.SetActive(true);
 
         if (collision.tag == "LevelMatti")
