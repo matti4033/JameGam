@@ -384,6 +384,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4066050547092939371, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
   m_PrefabInstance: {fileID: 4049872613069136104}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &677933609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677933602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d52de3e5a701e4aad3ed6a56d149cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterLevelText: {fileID: 0}
+  moveSpeed: 0
+  rb: {fileID: 0}
 --- !u!1 &737573072
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,6 +951,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6543939801979850657, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 677933605}
+    - targetCorrespondingSourceObject: {fileID: 6543939801979850657, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 677933609}
   m_SourcePrefab: {fileID: 100100000, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
 --- !u!1001 &7039299069254931107
 PrefabInstance:
@@ -1075,6 +1093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b18f589157315e4ba8840f08d4c26be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossesdead: 0
   bossOneDead: 0
   bossTwoDead: 0
   bossThreeDead: 0
