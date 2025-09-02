@@ -16,6 +16,12 @@ public class BossOne : BaseBoss
     public float evadeDuration = 0.3f;
     private bool isEvading = false;
 
+    [Header("Attack")]
+    public GameObject[] projectilePrefabs;
+    public Transform shootPoint;
+    public float attackCD;
+    private float attackTimer;
+
     protected override void Start()
     {
         base.Start();
@@ -26,6 +32,9 @@ public class BossOne : BaseBoss
     {
         base.Update();
         Hover();
+
+        if (attackTimer > 0)
+            attackTimer -= Time.deltaTime;
     }
 
     protected override void OnEnterState(BossState newState)
@@ -64,7 +73,23 @@ public class BossOne : BaseBoss
 
     void Attack()
     {
+        if (attackTimer > 0) return;
 
+        if (projectilePrefabs.Length == 0) return;
+
+        int index = Random.Range(0, projectilePrefabs.Length);
+        GameObject selectedProjectile = projectilePrefabs[index];
+
+        GameObject proj = Instantiate(selectedProjectile, shootPoint.position, Quaternion.identity);
+
+        proj.transform.localScale = selectedProjectile.transform.localScale;
+
+        float direction = transform.localScale.x > 0 ? 1f : -1f;
+        Vector3 projScale = proj.transform.localScale;
+        projScale.x = Mathf.Abs(projScale.x) * direction;
+        proj.transform.localScale = projScale;
+
+        attackTimer = attackCD;
     }
 
     void DoEvade()
