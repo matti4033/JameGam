@@ -55,7 +55,7 @@ public class BossOne : BaseBoss
         }
     }
 
-    protected override void HandleState()
+    protected override void HandleState() //Detta är Update
     {
         switch (currentState)
         {

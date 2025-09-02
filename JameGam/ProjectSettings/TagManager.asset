@@ -3,15 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-  tags:
-  - LevelMatti
-=======
->>>>>>> Stashed changes
   tags: []
->>>>>>> e71031b81a8d74d4d3a4be54059f7c5ff8449c6b
   layers:
   - Default
   - TransparentFX
@@ -49,17 +41,5 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-<<<<<<< Updated upstream
-  - name: New Layer 1
-    uniqueID: 333703519
-    locked: 0
-=======
-<<<<<<< HEAD
-=======
-  - name: New Layer 1
-    uniqueID: 333703519
-    locked: 0
->>>>>>> e71031b81a8d74d4d3a4be54059f7c5ff8449c6b
->>>>>>> Stashed changes
   m_RenderingLayers:
   - Default
