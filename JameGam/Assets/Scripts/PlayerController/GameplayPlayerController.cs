@@ -1,4 +1,5 @@
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,12 +19,19 @@ public class GameplayPlayerController : MonoBehaviour
     private void Update()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+        }
     }
 
     private void FixedUpdate()
     {
-        Vector2 movement = new Vector2(moveX, moveY);
-        rb.linearVelocity = movement * moveSpeed;
+        //Vector2 movement = new Vector2(moveX, moveY);
+        //rb.linearVelocity = movement * moveSpeed;
+
+        rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);
     }
 
     public void OnGameMove(InputValue value)
@@ -40,9 +48,7 @@ public class GameplayPlayerController : MonoBehaviour
         Debug.Log("JUMP");
 
         if (isGrounded & value.isPressed)
-        {
-            rb.AddForceAtPosition(new Vector2(0, jumpVelocity), Vector2.up, ForceMode2D.Impulse);
-            //rb.AddForce(Vector2.up * jumpVelocity * 50, ForceMode2D.Impulse); 
-        }
+            rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+
     }
 }
