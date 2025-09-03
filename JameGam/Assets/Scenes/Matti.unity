@@ -1105,7 +1105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6700147849970692254, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
       propertyPath: jumpVelocity
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6700147849970692254, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
       propertyPath: groundLayer.m_Bits

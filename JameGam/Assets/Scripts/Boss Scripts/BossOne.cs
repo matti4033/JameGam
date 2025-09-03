@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 using System.Collections;
 
-
 public class BossOne : BaseBoss
 {
     [Header("Hover Settings")]
