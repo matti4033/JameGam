@@ -41,7 +41,8 @@ public class GameplayPlayerController : MonoBehaviour
 
         if (isGrounded & value.isPressed)
         {
-            rb.AddForce(Vector2.up * jumpVelocity * 50, ForceMode2D.Impulse); 
+            rb.AddForceAtPosition(new Vector2(0, jumpVelocity), Vector2.up, ForceMode2D.Impulse);
+            //rb.AddForce(Vector2.up * jumpVelocity * 50, ForceMode2D.Impulse); 
         }
     }
 }
