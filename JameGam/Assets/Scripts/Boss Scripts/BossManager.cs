@@ -5,10 +5,12 @@ public class BossManager : MonoBehaviour
 {
     public BaseBoss bossPrefab;
     private BaseBoss activeBoss;
+    public Transform spawnPos;
 
-    public void StartBossFight(Vector2 spawnPos)
+    public void StartBossFight()
     {
-        activeBoss = Instantiate(bossPrefab, spawnPos, Quaternion.identity);
+        Vector3 startPos = spawnPos.position;
+        activeBoss = Instantiate(bossPrefab, startPos, Quaternion.identity);
         activeBoss.OnBossDefeated += HandleBossDefeated;
 
         Debug.Log("Boss fight started!");
