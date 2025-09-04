@@ -6,7 +6,7 @@ public class StringProjectile : MonoBehaviour
 {
     public float speed = 10f;
     public float maxDistance = 15f;
-    public float stayDuration = 10f;
+    public float stayDuration = 15f;
     public GameObject vibrationPrefab;
     public float vibrationTravelTime = 1f;
 
@@ -17,14 +17,21 @@ public class StringProjectile : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D boxCollider;
+    private PlatformEffector2D effector;
 
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
+        effector = GetComponent<PlatformEffector2D>();
 
         if (boxCollider != null)
             boxCollider.enabled = false;
+        if (effector != null)
+        {
+            effector.useOneWay = true;
+            effector.surfaceArc = 170f;
+        }
     }
 
     public void Init(Transform anchorPoint)
@@ -56,6 +63,7 @@ public class StringProjectile : MonoBehaviour
 
             UpdateSpriteAndCollider();
         }
+        effector.rotationalOffset = -transform.eulerAngles.z;
     }
 
     public bool IsStuck()
