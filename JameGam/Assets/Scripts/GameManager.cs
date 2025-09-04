@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public GameObject gameOverMenu;
 
     public int bossesdead = 0;
 
@@ -18,7 +19,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
+        if (bossesdead >= 3)
+        {
+            Time.timeScale = 0f;
+            gameOverMenu.SetActive(true);
+        }
     }
 
 }
