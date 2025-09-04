@@ -2,6 +2,7 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class GameplayPlayerController : MonoBehaviour
 {
@@ -12,13 +13,23 @@ public class GameplayPlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float checkRadius;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask stringLayer;
+
+    [SerializeField] private float dropDownDuration = 0.3f;
+    private Collider2D playerCollider;
 
     private bool isGrounded;
     private float moveX, moveY;
 
+    private void Awake()
+    {
+        playerCollider = GetComponent<Collider2D>();
+
+    }
+
     private void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer | stringLayer);
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -45,10 +56,36 @@ public class GameplayPlayerController : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        Debug.Log("JUMP");
+        if (value.isPressed)
+        {
+            if (isGrounded)
+            {
+                if (moveY < -0.5f)
+                {
+                    DropThroughPlatform();
+                }
+                else
+                {
+                    rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+                }
+            }
+        }
+    }
 
-        if (isGrounded & value.isPressed)
-            rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+    private void DropThroughPlatform()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, stringLayer);
+        if (hit.collider != null)
+        {
+            StartCoroutine(DisableCollision(hit.collider));
+        }
+    }
 
+    private IEnumerator DisableCollision(Collider2D platform)
+    {
+        Physics2D.IgnoreCollision(playerCollider, platform, true);
+        yield return new WaitForSeconds(dropDownDuration);
+        if (platform != null)
+            Physics2D.IgnoreCollision(playerCollider, platform, false);
     }
 }

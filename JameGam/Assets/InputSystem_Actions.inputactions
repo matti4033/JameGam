@@ -186,7 +186,7 @@
                 {
                     "name": "down",
                     "id": "41b7c070-4b7a-40a5-a9df-fdd16045dc22",
-                    "path": "",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -242,6 +242,17 @@
                     "name": "",
                     "id": "596254af-2801-4456-a964-6aa329ed5c82",
                     "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0f2e1d9-5fda-47f3-964e-a0ddf33378c3",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

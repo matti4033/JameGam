@@ -230,7 +230,11 @@ MonoBehaviour:
   checkRadius: 0.1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
+  stringLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  dropDownDuration: 0.5
 --- !u!50 &714862659339308957
 Rigidbody2D:
   serializedVersion: 5
