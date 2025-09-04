@@ -105,6 +105,4 @@ public class BossTwo : BaseBoss
 
         base.Defeated();
     }
-    protected override void OnEnterState(BossState newState) { }
-    protected override void HandleState() { }
 }

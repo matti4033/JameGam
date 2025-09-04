@@ -37,40 +37,6 @@ public class BossOne : BaseBoss
             attackTimer -= Time.deltaTime;
     }
 
-    protected override void OnEnterState(BossState newState)
-    {
-        switch (newState)
-        {
-            case BossState.Attack:
-                Debug.Log($"{bossName} prepares attack!");
-                break;
-            case BossState.Evade:
-                DoEvade();
-                Debug.Log($"{bossName} evades!");
-                break;
-            case BossState.Move:
-                Debug.Log($"{bossName} repositions!");
-                break;
-        }
-    }
-
-    protected override void HandleState() //Detta är Update
-    {
-        switch (currentState)
-        {
-            case BossState.Attack:
-                Attack();
-                break;
-
-            case BossState.Evade:
-                break;
-
-            case BossState.Move:
-                Move();
-                break;
-        }
-    }
-
     void Attack()
     {
         if (attackTimer > 0) return;
@@ -96,11 +62,6 @@ public class BossOne : BaseBoss
     {
         if (!isEvading)
             StartCoroutine(EvadeRoutine());
-    }
-
-    void Move()
-    {
-        
     }
 
     void Hover()
