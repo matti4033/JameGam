@@ -90,11 +90,6 @@ public class BossTwo : BaseBoss
         stuckStrings[index].PlayString();
     }
 
-    public override void TakeDamage(float damage)
-    {
-        base.TakeDamage(damage);
-    }
-
     protected override void Defeated()
     {
         foreach (var s in activeStrings)

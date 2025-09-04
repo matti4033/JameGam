@@ -6,9 +6,9 @@ public abstract class BaseBoss : MonoBehaviour
 
     [Header("Settings")]
     public string bossName;
-    public float maxHealth;
-    public float currentHealth;
     public float moveSpeed;
+    public float lifeTime;
+    public float timeAlive;
 
     public Rigidbody2D rb;
     public Transform player;
@@ -17,21 +17,19 @@ public abstract class BaseBoss : MonoBehaviour
 
     protected virtual void Start()
     {
-        currentHealth = maxHealth;
     }
 
     protected virtual void Update()
     {
         if (isDead) return;
 
-    }
+        timeAlive += Time.deltaTime;
+        if(timeAlive > lifeTime)
+        {
+            //prompt att man kan "cleansa" bossen!
+            Debug.Log("CLEASE TIME!!!");
+        }
 
-    public virtual void TakeDamage(float damage)
-    {
-        if (isDead) return;
-        currentHealth -= damage;
-
-        if (currentHealth <= 0) Defeated();
     }
 
     protected virtual void Defeated()
