@@ -266,7 +266,6 @@ MonoBehaviour:
   maxHealth: 1
   currentHealth: 0
   moveSpeed: 0
-  stateDuration: 2
   rb: {fileID: 4177638500602555381}
   player: {fileID: 0}
   stringPrefab: {fileID: 8004957983763761591, guid: a76d6cc50c3dd014da0c070553a37ddf, type: 3}
