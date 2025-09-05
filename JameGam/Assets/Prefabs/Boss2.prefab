@@ -264,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossName: GuitarTwo
   moveSpeed: 0
-  lifeTime: 10
+  lifeTime: 20
   timeAlive: 0
   rb: {fileID: 4177638500602555381}
   player: {fileID: 0}
