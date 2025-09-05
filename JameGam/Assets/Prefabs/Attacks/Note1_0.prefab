@@ -106,7 +106,7 @@ MonoBehaviour:
   speed: 3
   amplitude: 2.86
   frequency: 2
-  bounces: 2
+  bounces: 0
 --- !u!50 &7458973286617413601
 Rigidbody2D:
   serializedVersion: 5
