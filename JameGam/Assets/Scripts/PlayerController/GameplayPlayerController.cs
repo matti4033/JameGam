@@ -18,11 +18,16 @@ public class GameplayPlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask stringLayer;
 
+    [SerializeField] private GameObject throwPrefab;
+    [SerializeField] private Transform throwPoint;
+    [SerializeField] private float throwForce = 10f;
+
     [SerializeField] private float dropDownDuration = 0.3f;
     private Collider2D playerCollider;
 
     private bool isGrounded;
     private float moveX, moveY;
+    private GameObject currentBoss;
 
     private void Awake()
     {
@@ -38,6 +43,7 @@ public class GameplayPlayerController : MonoBehaviour
         {
             rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
+        
     }
 
     private void FixedUpdate()
@@ -70,6 +76,27 @@ public class GameplayPlayerController : MonoBehaviour
                     rb.linearVelocity = new Vector2(rb.linearVelocity.x, boostedVelocity);
                 }
             }
+        }
+    }
+
+    public void OnAction(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            BaseBoss boss = FindObjectOfType<BaseBoss>();
+            if(boss != null && boss.IsTired)
+                ThrowThing();
+        }
+    }
+
+    private void ThrowThing()
+    {
+        GameObject obj = Instantiate(throwPrefab, throwPoint.position, Quaternion.identity);
+        Rigidbody2D rb2d = obj.GetComponent<Rigidbody2D>();
+        if (rb2d != null)
+        {
+            Vector2 dir = (Vector2.right * transform.localScale.x).normalized;
+            rb2d.AddForce(dir * throwForce, ForceMode2D.Impulse);
         }
     }
 

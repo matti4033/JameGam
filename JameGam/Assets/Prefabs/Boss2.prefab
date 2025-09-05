@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 2664611966583864518}
   - component: {fileID: 8610693318788979618}
   - component: {fileID: 4177638500602555381}
+  - component: {fileID: 7826941025220528393}
   m_Layer: 0
   m_Name: Boss2
   m_TagString: Untagged
@@ -264,10 +265,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossName: GuitarTwo
   moveSpeed: 0
-  lifeTime: 20
-  timeAlive: 0
   rb: {fileID: 4177638500602555381}
   player: {fileID: 0}
+  maxPhaseCycles: 2
+  maxAttackCycles: 3
   stringPrefab: {fileID: 8004957983763761591, guid: a76d6cc50c3dd014da0c070553a37ddf, type: 3}
   shootPoints:
   - {fileID: 3292803246870426365}
@@ -277,8 +278,6 @@ MonoBehaviour:
   - {fileID: 2876866349656550155}
   maxStrings: 5
   shootCooldown: 0.3
-  vibrationPrefab: {fileID: 2438222986230307312, guid: c7e64d273d87b774f8deca4609ea6ebe, type: 3}
-  vibrationTravelTime: 1
   vibrationInterval: 0.5
   phaseDuration: 15
   stringExtendDelay: 0.5
@@ -308,7 +307,53 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
+--- !u!61 &7826941025220528393
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823910610405044101}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.3989396, y: -0.35106754}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.797905, y: 14.915014}
+  m_EdgeRadius: 0
 --- !u!1 &9099175112507494250
 GameObject:
   m_ObjectHideFlags: 0

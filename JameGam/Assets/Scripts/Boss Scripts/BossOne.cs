@@ -4,46 +4,61 @@ using System.Collections;
 
 public class BossOne : BaseBoss
 {
-    //[Header("Hover Settings")]
-    //public float hoverAmplitude = 1f;
-    //public float hoverSpeed = 2f;
-    //public float hoverDistance = 3f;
-    //public float hoverBaseY = 2f;
-
-    //[Header("Evade")]
-    //public float evadeDistance = 3f;
-    //public float evadeDuration = 0.3f;
-    //private bool isEvading = false;
-
     [Header("Attack")]
     public GameObject[] projectilePrefabs;
     public Transform shootPoint;
     public float attackCD;
-    private float attackTimer;
+    public float attackPhaseDuration;
+
+    public float attackTimer;
 
     protected override void Start()
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        StartBossPhases();
+    }
+    protected override void StartBossPhases()
+    {
+        StartCoroutine(PhaseLoop());        
     }
 
-    protected override void Update()
+    private IEnumerator PhaseLoop()
     {
-        base.Update();
-        //Hover();
+        float phaseTimer = 0f;
 
-        if (attackTimer >= 0)
-            attackTimer -= Time.deltaTime;
+        while (!IsDead)
+        {
+            while (IsTired)
+                yield return null;
 
-        Attack();
+            attackTimer = 0f;
+
+            while (phaseTimer < attackPhaseDuration && !IsTired && !IsDead)
+            {
+                if (attackTimer <= 0f)
+                {
+                    Attack();
+                    attackTimer = attackCD;
+                }
+
+                attackTimer -= Time.deltaTime;
+                phaseTimer += Time.deltaTime;
+
+                yield return null;
+            }
+
+            FinishPhase();
+            Debug.Log($"{bossName} is now tired: {IsTired}");
+
+            phaseTimer = 0f;
+        }
     }
 
     void Attack()
     {
-        Debug.Log("asdasda");
-        if (attackTimer > 0) return;
-
         if (projectilePrefabs.Length == 0) return;
 
         int index = Random.Range(0, projectilePrefabs.Length);
@@ -58,54 +73,10 @@ public class BossOne : BaseBoss
         projScale.x = Mathf.Abs(projScale.x) * direction;
         proj.transform.localScale = projScale;
 
-        attackTimer = attackCD;
     }
 
-    //void DoEvade()
-    //{
-    //    if (!isEvading)
-    //        StartCoroutine(EvadeRoutine());
-    //}
-
-    //void Hover()
-    //{
-    //    Vector2 target = transform.position;
-
-    //    Vector2 dir = (transform.position - player.position).normalized;
-    //    if (dir == Vector2.zero) dir = Vector2.right;
-
-    //    target.x = player.position.x + dir.x * hoverDistance;
-
-    //    target.y = hoverBaseY + Mathf.Sin(Time.time * hoverSpeed) * hoverAmplitude;
-
-    //    if (!isEvading)
-    //        transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
-    //    else
-    //    {
-    //        Vector2 pos = transform.position;
-    //        pos.y = target.y;
-    //        transform.position = pos;
-    //    }
-    //}
-
-    //IEnumerator EvadeRoutine()
-    //{
-    //    isEvading = true;
-
-    //    Vector2 dir = (transform.position - player.position).normalized;
-    //    if (dir == Vector2.zero) dir = Vector2.right;
-
-    //    Vector2 start = transform.position;
-    //    Vector2 target = start + dir * evadeDistance;
-
-    //    float t = 0;
-    //    while (t < 1f)
-    //    {
-    //        t += Time.deltaTime / evadeDuration;
-    //        rb.MovePosition(Vector2.Lerp(start, target, t));
-    //        yield return null;
-    //    }
-
-    //    isEvading = false;
-    //}
+    protected override void Defeated()
+    {
+        base.Defeated();
+    }
 }

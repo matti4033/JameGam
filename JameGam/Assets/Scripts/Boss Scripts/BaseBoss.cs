@@ -1,45 +1,120 @@
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using System;
 
 public abstract class BaseBoss : MonoBehaviour
 {
-
     [Header("Settings")]
     public string bossName;
     public float moveSpeed;
-    public float lifeTime;
-    public float timeAlive;
-
     public Rigidbody2D rb;
     public Transform player;
 
+    [Header("Cycle Settings")]
+    public int maxPhaseCycles = 2;
+    public int maxAttackCycles = 3;
+
     protected bool isDead = false;
+    protected bool isTired = false;
+    protected int phaseCount = 0;
+    protected int attackCycleCount = 0;
+
+    public bool IsTired => isTired;
+    public bool IsDead => isDead;
+
+    public Action<BaseBoss> OnBossDefeated;
 
     protected virtual void Start()
     {
     }
 
-    protected virtual void Update()
+    protected void FinishPhase()
+    {
+        phaseCount++;
+        if (phaseCount >= maxPhaseCycles)
+        {
+            EnterTiredState();
+        }
+    }
+
+    protected void EnterTiredState()
+    {
+        isTired = true;
+        attackCycleCount++;
+        Debug.Log($"{bossName} is tired! Cycle {attackCycleCount}/{maxAttackCycles}");
+
+    }
+
+    public virtual void WakeUp()
     {
         if (isDead) return;
 
-        timeAlive += Time.deltaTime;
-        if(timeAlive > lifeTime)
+        if (attackCycleCount >= maxAttackCycles)
         {
-            //prompt att man kan "cleansa" bossen!
-            Debug.Log("CLEASE TIME!!!");
+            Debug.Log($"{bossName} collapses after final cycle!");
+            Defeated();
         }
+        else
+        {
+            Debug.Log($"{bossName} wakes up!");
+            isTired = false;
+            phaseCount = 0;
 
+            StartBossPhases();
+        }
     }
 
     protected virtual void Defeated()
     {
-        // Do sum death effect?
         isDead = true;
         Debug.Log($"{bossName} dead!");
         OnBossDefeated?.Invoke(this);
     }
 
-    public System.Action<BaseBoss> OnBossDefeated;
-
+    protected abstract void StartBossPhases();
 }
+
+//using System.Runtime.InteropServices.WindowsRuntime;
+//using UnityEngine;
+
+//public abstract class BaseBoss : MonoBehaviour
+//{
+
+//    [Header("Settings")]
+//    public string bossName;
+//    public float moveSpeed;
+//    public float lifeTime;
+//    public float timeAlive;
+
+//    public Rigidbody2D rb;
+//    public Transform player;
+
+//    protected bool isDead = false;
+
+//    protected virtual void Start()
+//    {
+//    }
+
+//    protected virtual void Update()
+//    {
+//        if (isDead) return;
+
+//        timeAlive += Time.deltaTime;
+//        if(timeAlive > lifeTime)
+//        {
+//            //prompt att man kan "cleansa" bossen!
+//            Debug.Log("CLEASE TIME!!!");
+//        }
+
+//    }
+
+//    protected virtual void Defeated()
+//    {
+//        // Do sum death effect?
+//        isDead = true;
+//        Debug.Log($"{bossName} dead!");
+//        OnBossDefeated?.Invoke(this);
+//    }
+
+//    public System.Action<BaseBoss> OnBossDefeated;
+
+//}
