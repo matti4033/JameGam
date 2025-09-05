@@ -38,6 +38,11 @@ public class Menus : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(1);
+
+        if (GameManager.Instance)
+        {
+            GameManager.ResetSingleton();
+        }
     }
 
     public void ResumeGame()
@@ -49,7 +54,6 @@ public class Menus : MonoBehaviour
 
     public void MainMenu()
     {
-        Destroy(gameMananger);
         SceneManager.LoadScene(0);
     }
 

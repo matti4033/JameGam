@@ -4,10 +4,11 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - LevelMatti
+  - LevelOne
   - Wall
   - String
   - Floor
+  - LevelTwo
   layers:
   - Default
   - TransparentFX

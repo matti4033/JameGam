@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class MapPlayerController : MonoBehaviour
 {
-    private bool MattiIsPro;
+    private bool Level1Entrence;
+    private bool Level2Entrence;
 
     [SerializeField] GameObject enterLevelText;
 
@@ -34,10 +35,14 @@ public class MapPlayerController : MonoBehaviour
 
     public void OnInteract(InputValue value)
     {
-        if (MattiIsPro)
+        if (Level1Entrence)
         {
-            GameManager.Instance.bossesdead++;
-            //SceneManager.LoadScene("Matti");
+            SceneManager.LoadScene("Level1");
+        }
+
+        if (Level2Entrence && GameManager.Instance.bossesdead == 1)
+        {
+            SceneManager.LoadScene("Level2");
         }
     }
 
@@ -45,9 +50,14 @@ public class MapPlayerController : MonoBehaviour
     {
         enterLevelText.SetActive(true);
 
-        if (collision.tag == "LevelMatti")
+        if (collision.tag == "LevelOne")
         {
-            MattiIsPro = true;
+            Level1Entrence = true;
+
+        }
+        if (collision.tag == "LevelTwo")
+        {
+            Level2Entrence = true;
 
         }
     }
@@ -56,7 +66,8 @@ public class MapPlayerController : MonoBehaviour
     {
         enterLevelText.SetActive(false);
 
-        MattiIsPro = false;
+        Level1Entrence = false;
+        Level2Entrence = false;
     }
 }
 

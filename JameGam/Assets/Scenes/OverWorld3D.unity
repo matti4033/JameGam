@@ -131,8 +131,8 @@ GameObject:
   - component: {fileID: 98388294}
   - component: {fileID: 98388293}
   m_Layer: 0
-  m_Name: Level Matti Area
-  m_TagString: LevelMatti
+  m_Name: Level One Area
+  m_TagString: LevelOne
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 564214728}
   m_Layer: 0
   m_Name: Level Birkan Area
-  m_TagString: LevelMatti
+  m_TagString: LevelTwo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
