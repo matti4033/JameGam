@@ -17,7 +17,7 @@ public class WaveSegment : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        rb.isKinematic = true; // Move it manually for consistency
+        rb.bodyType = RigidbodyType2D.Kinematic; // Move it manually for consistency
 
         box = GetComponent<BoxCollider2D>();
         box.isTrigger = true;
