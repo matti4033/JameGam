@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1251808771433537105}
   - component: {fileID: 4302218407818701019}
+  - component: {fileID: -6327569983724813390}
   m_Layer: 0
   m_Name: StringWaveDirector
   m_TagString: Untagged
@@ -44,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae3a44790808bf46a19c8f05a8d8dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stringPrefab: {fileID: 8004957983763761591, guid: a76d6cc50c3dd014da0c070553a37ddf, type: 3}
   lanes: 6
   topY: 5
   bottomY: -5
@@ -51,20 +53,60 @@ MonoBehaviour:
   killX: -10
   wavePrefab: {fileID: 683304328114903582, guid: 42281f253dda19347acc00d355a2aabf, type: 3}
   telegraphPrefab: {fileID: 8607705724906498411, guid: c66f90ce079e282438cdfb2bcd5e853c, type: 3}
+  patternText: {fileID: 0}
+  playOnStart: 1
   bpm: 110
   stepsPerBeat: 1
   telegraphLead: 0.4
   waveSpeed: 5
   waveLength: 3
   waveLifePadding: 1
+  safeCorridorMode: 1
   maxLaneChangePerStep: 1
-  wander: 0.6
-  playOnStart: 1
-  endless: 1
+  corridorWander: 0.7
+  spawnJitterY: 0.06
   stepsToRun: 64
   tokenPrefab: {fileID: 1214659129735923178, guid: 4eb520f461eb78d4e88f26d37e604b75, type: 3}
-  totalTokens: 4
-  firstTokenStep: 4
-  lastTokenStep: 28
-  tokenX: 0
+  tokensUntilGoal: 1
+  tokenSpawnChance: 0.55
+  minStepsBetweenToken: 2
   tokenOffset: {x: 0, y: 0}
+  tokenSlideSpeedMul: 1
+--- !u!114 &-6327569983724813390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4422347871005633262}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6127963e62e4e2429bce0b5f26cb953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stringPrefab: {fileID: 0}
+  lanes: 6
+  topY: 3.5
+  bottomY: -3.5
+  spawnX: 10
+  killX: -10
+  wavePrefab: {fileID: 0}
+  patternText: {fileID: 0}
+  playOnStart: 1
+  bpm: 100
+  stepsPerBeat: 2
+  telegraphLead: 0.35
+  waveSpeed: 8
+  waveLength: 2.8
+  waveLifePadding: 0.4
+  safeCorridorMode: 1
+  maxLaneChangePerStep: 1
+  corridorWander: 0.7
+  spawnJitterY: 0.06
+  stepsToRun: 64
+  tokenPrefab: {fileID: 0}
+  tokensUntilGoal: 1
+  tokenSpawnChance: 0.55
+  minStepsBetweenToken: 2
+  tokenOffset: {x: 0, y: 0}
+  tokenSlideSpeedMul: 1

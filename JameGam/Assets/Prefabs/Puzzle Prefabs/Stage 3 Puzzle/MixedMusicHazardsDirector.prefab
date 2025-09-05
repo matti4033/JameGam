@@ -55,11 +55,13 @@ MonoBehaviour:
   leftX_Notes: -7.5
   rightX_Notes: 7.5
   wavePrefab: {fileID: 683304328114903582, guid: 42281f253dda19347acc00d355a2aabf, type: 3}
-  notePrefab: {fileID: 5604433604854315833, guid: cd383cb8bad0df3419190b4337f0193e, type: 3}
-  telegraphLane: {fileID: 8607705724906498411, guid: c66f90ce079e282438cdfb2bcd5e853c, type: 3}
-  telegraphColumn: {fileID: 8070457443807674716, guid: 93392c8cd407c414f88ec9b85a994f78, type: 3}
+  noteRainPrefab: {fileID: 5604433604854315833, guid: cd383cb8bad0df3419190b4337f0193e, type: 3}
+  waveTelegraphPrefab: {fileID: 8607705724906498411, guid: c66f90ce079e282438cdfb2bcd5e853c, type: 3}
+  noteTelegraphPrefab: {fileID: 8070457443807674716, guid: 93392c8cd407c414f88ec9b85a994f78, type: 3}
+  patternText: {fileID: 0}
+  playOnStart: 1
   bpm: 112
-  stepsPerBeat: 1
+  stepsPerBeat: 2
   telegraphLead: 0.4
   waveSpeed: 6
   waveLength: 3
@@ -69,11 +71,15 @@ MonoBehaviour:
   maxColumnDeltaPerStep: 1
   laneWander: 0.7
   columnWander: 0.7
-  playOnStart: 1
-  endless: 1
-  stepsToRun: 64
+  waveSpawnJitterY: 0.06
+  noteSpawnJitterX: 0.06
+  noteTelegraphScaleY: 1.2
+  noteTelegraphFade: 0.15
   tokenPrefab: {fileID: 1214659129735923178, guid: 4eb520f461eb78d4e88f26d37e604b75, type: 3}
-  totalTokens: 4
-  firstTokenStep: 4
-  lastTokenStep: 28
-  tokenOffset: {x: 0, y: 0}
+  tokensUntilGoal: 1
+  tokenSpawnChance: 0.5
+  minStepsBetweenToken: 2
+  tokenOffsetForNotes: {x: 0, y: 0}
+  tokenOffsetForWaves: {x: 0, y: 0}
+  tokenFallSpeedMul: 1
+  tokenSlideSpeedMul: 1

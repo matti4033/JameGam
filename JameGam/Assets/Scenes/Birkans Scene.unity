@@ -1225,10 +1225,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: StringWaveDirector
       objectReference: {fileID: 0}
-    - target: {fileID: 4422347871005633262, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1353,24 +1349,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3761059086442199675, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4891117436987666624, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
-      propertyPath: stepsPerBeat
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4891117436987666624, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
-      propertyPath: noteRainPrefab
-      value: 
-      objectReference: {fileID: 5604433604854315833, guid: cd383cb8bad0df3419190b4337f0193e, type: 3}
-    - target: {fileID: 4891117436987666624, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
-      propertyPath: noteTelegraphPrefab
-      value: 
-      objectReference: {fileID: 8070457443807674716, guid: 93392c8cd407c414f88ec9b85a994f78, type: 3}
-    - target: {fileID: 4891117436987666624, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
-      propertyPath: waveTelegraphPrefab
-      value: 
-      objectReference: {fileID: 8607705724906498411, guid: c66f90ce079e282438cdfb2bcd5e853c, type: 3}
     - target: {fileID: 7560565805877864111, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.03133
@@ -1731,7 +1711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2075396016669774364, guid: b101e0687d6fa3a4897904e89b753d7c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

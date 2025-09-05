@@ -50,23 +50,22 @@ MonoBehaviour:
   spawnY: 6
   noteRainPrefab: {fileID: 5604433604854315833, guid: cd383cb8bad0df3419190b4337f0193e, type: 3}
   telegramPrefab: {fileID: 8070457443807674716, guid: 93392c8cd407c414f88ec9b85a994f78, type: 3}
+  patternText: {fileID: 0}
+  playOnStart: 1
   bpm: 120
   stepsPerBeat: 1
-  telegrahLead: 0.45
-  patternText: {fileID: 0}
-  randomDensity: 0.35
+  telegraphLead: 0.4
+  telegraphFade: 0.15
   noteSpeed: 4
   killY: -6
-  playOnStart: 1
-  loopPattern: 1
   safeCorridorMode: 1
   maxColumnDeltaPerStep: 1
   corridorWander: 0.7
   telegraphScaleY: 1.2
   spawnJitter: 0.06
   tokenPrefab: {fileID: 1214659129735923178, guid: 4eb520f461eb78d4e88f26d37e604b75, type: 3}
-  totalTokens: 4
-  firstTokenStep: 4
-  lastTokenStep: 28
-  tokenY: 0
+  tokensUntilGoal: 1
+  tokenSpawnChance: 0.55
+  minStepsBetweenToken: 2
   tokenOffset: {x: 0, y: 0}
+  tokenFallSpeedMul: 1

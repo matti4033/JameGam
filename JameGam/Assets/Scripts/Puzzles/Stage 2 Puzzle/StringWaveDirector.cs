@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class StringWaveDirector : MonoBehaviour
 {
+    [Header("Lane Visuals")]
+    public GameObject stringPrefab;
+    private List<GameObject> laneStrings = new List<GameObject>();
+
     [Header("Lanes / Area")] public int lanes = 6;
     public float topY = 3.5f;
     public float bottomY = -3.5f;
@@ -54,7 +58,32 @@ public class StringWaveDirector : MonoBehaviour
         LoadPattern();
         _goal = FindAnyObjectByType<TokenGoal>();
         currentSafeLane = Mathf.Clamp(lanes / 2, 0, Mathf.Max(0, lanes - 1));
+        SpawnPermanentStrings();
+
         if (playOnStart) StartCoroutine(Run());
+    }
+
+    void SpawnPermanentStrings()
+    {
+        if (stringPrefab == null) return;
+
+        float leftX = Mathf.Min(spawnX, killX);
+        float rightX = Mathf.Max(spawnX, killX);
+        float width = rightX - leftX;
+        float centerX = leftX + width * 0.5f;
+
+        for (int lane = 0; lane < lanes; lane++)
+        {
+            float y = LaneY(lane);
+            var pos = new Vector3(centerX, y, 0f);
+
+            var laneObj = Instantiate(stringPrefab, pos, Quaternion.identity, transform);
+
+            var scale = laneObj.transform.localScale;
+            laneObj.transform.localScale = new Vector3(width, scale.y, scale.z);
+
+            laneStrings.Add(laneObj);
+        }
     }
 
     void LoadPattern()
@@ -177,15 +206,40 @@ public class StringWaveDirector : MonoBehaviour
 
     void Telegraph(int safeLane)
     {
-        if (!telegraphPrefab) return;
+        if (!stringPrefab) return;
+
+        float leftX = Mathf.Min(spawnX, killX);
+        float rightX = Mathf.Max(spawnX, killX);
+        float width = rightX - leftX;
+
         for (int lane = 0; lane < lanes; lane++)
         {
             if (lane == safeLane) continue;
-            var p = new Vector3(spawnX, LaneY(lane), 0f);
-            var go = Instantiate(telegraphPrefab, p, Quaternion.identity);
-            Destroy(go, telegraphLead + 0.1f);
+
+            float y = LaneY(lane);
+
+            var pos = new Vector3(leftX + width * 0.5f, y, 0f);
+
+            var laneObj = Instantiate(stringPrefab, pos, Quaternion.identity, transform);
+
+            var scale = laneObj.transform.localScale;
+            laneObj.transform.localScale = new Vector3(width, scale.y, scale.z);
         }
     }
+
+
+
+    //void Telegraph(int safeLane)
+    //{
+    //    if (!telegraphPrefab) return;
+    //    for (int lane = 0; lane < lanes; lane++)
+    //    {
+    //        if (lane == safeLane) continue;
+    //        var p = new Vector3(spawnX, LaneY(lane), 0f);
+    //        var go = Instantiate(telegraphPrefab, p, Quaternion.identity);
+    //        Destroy(go, telegraphLead + 0.1f);
+    //    }
+    //}
 
     void SpawnStep(int safeLane)
     {

@@ -88,56 +88,7 @@ public class BossThree : BaseBoss
             yield return new WaitForSeconds(projectileattackCD);
         }
     }
-    //private IEnumerator PhaseLoop()
-    //{
-    //    while (!IsDead)
-    //    {
-    //        while (IsTired)
-    //            yield return null;
-
-    //        float stringPhaseTimer = 0f;
-
-    //        while (stringPhaseTimer < stringPhaseDuration && !IsDead && !IsTired)
-    //        {
-    //            if (projectileAttackTimer <= 0f)
-    //            {
-    //                FireProjectile();
-    //                projectileAttackTimer = projectileattackCD;
-    //            }
-    //            projectileAttackTimer -= Time.deltaTime;
-
-    //            int stringCount = 0;
-    //            while (stringCount < maxStrings && !IsDead)
-    //            {
-    //                ShootString();
-    //                stringCount++;
-    //                yield return new WaitForSeconds(stringShootCooldown);
-    //            }
-
-    //            yield return new WaitForSeconds(stringExtendDelay);
-
-    //            float vibrationTimer = 0f;
-    //            while (vibrationTimer < stringPhaseDuration && !IsDead)
-    //            {
-    //                PlayRandomString();
-    //                yield return new WaitForSeconds(vibrationInterval);
-    //                vibrationTimer += vibrationInterval;
-    //            }
-
-    //            stringPhaseTimer += stringPhaseDuration;
-    //        }
-
-    //        foreach(var s in activeStrings)
-    //        {
-    //            if (s != null) Destroy(s.gameObject);
-    //        }
-    //        activeStrings.Clear();
-    //        stringShootIndex = 0;
-
-    //        FinishPhase();
-    //    }
-    //}
-
+  
     void FireProjectile()
     {
         if (projectilePrefabs.Length == 0) return;

@@ -44,4 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b476efeecfe9a1d46b8f52d59a61f7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossPrefab: {fileID: 0}
+  bossPrefab: {fileID: 817386701474937404, guid: 48af8b123a9769d46bc1f045770d3369, type: 3}
+  spawnPos: {fileID: 0}
+  bossSpawnTimer: 5
+  timer: 0

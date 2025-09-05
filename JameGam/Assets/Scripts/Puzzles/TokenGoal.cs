@@ -4,7 +4,10 @@ public class TokenGoal : MonoBehaviour
 {
     public int target = 4;
     public int current = 0;
-    
+
+    [SerializeField] private PuzzleManager puzzleManager;
+
+
     bool _completed = false;
 
     public void Add(int v = 1)
@@ -20,6 +23,10 @@ public class TokenGoal : MonoBehaviour
 
             // Clean up all directors/hazard spawners
             CleanupDirectors();
+            if (puzzleManager != null)
+            {
+                puzzleManager.SolvePuzzle();
+            }
 
             // Ask PuzzleManager to solve (support both SolvePuzzle and solvepuzzle)
             var pm = FindAnyObjectByType<PuzzleManager>();

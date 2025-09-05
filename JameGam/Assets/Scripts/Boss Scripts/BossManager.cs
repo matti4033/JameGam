@@ -7,13 +7,24 @@ public class BossManager : MonoBehaviour
     private BaseBoss activeBoss;
     public Transform spawnPos;
 
+    public float bossSpawnTimer;
+    public float timer;
+
     public void StartBossFight()
     {
+        StartCoroutine(SpawnBoss());
+
+    }
+    IEnumerator SpawnBoss()
+    {
+        yield return new WaitForSeconds(bossSpawnTimer);
+
         Vector3 startPos = spawnPos.position;
         activeBoss = Instantiate(bossPrefab, startPos, Quaternion.identity);
         activeBoss.OnBossDefeated += HandleBossDefeated;
 
         Debug.Log("Boss fight started!");
+        timer = 0;
     }
 
     private void HandleBossDefeated(BaseBoss boss)
