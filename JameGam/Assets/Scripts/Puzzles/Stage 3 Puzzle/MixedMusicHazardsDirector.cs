@@ -4,23 +4,25 @@ using System.Collections.Generic;
 
 public class MixedMusicHazardsDirector : MonoBehaviour
 {
-    [Header("Grid & Area")] public int lanes = 6; // rows (strings)
-    public int columns = 6; // vertical rain columns
+    [Header("Grid & Area")] public int lanes = 6;
+    public int columns = 6;
     public float topY = 3.6f;
     public float bottomY = -3.6f;
-    public float spawnX_Waves = 11f; // waves spawn at right, move left
+    public float spawnX_Waves = 11f;
     public float killX_Waves = -11f;
-    public float spawnY_Notes = 6.5f; // notes spawn at top, fall down
+    public float spawnY_Notes = 6.5f;
     public float killY_Notes = -6.5f;
-    public float leftX_Notes = -7.5f; // leftmost column world X
+    public float leftX_Notes = -7.5f;
     public float rightX_Notes = 7.5f;
 
     [Header("Prefabs")] public GameObject wavePrefab;
-    public GameObject notePrefab;
-    public GameObject telegraphLane;
-    public GameObject telegraphColumn;
+    public GameObject noteRainPrefab;
+    public GameObject waveTelegraphPrefab;
+    public GameObject noteTelegraphPrefab;
 
-    [Header("Timing (music-like)")] public float bpm = 112f;
+    [Header("Pattern")] public TextAsset patternText;
+    public bool playOnStart = true;
+    public float bpm = 100f;
     public int stepsPerBeat = 2;
     public float telegraphLead = 0.40f;
 
@@ -37,145 +39,208 @@ public class MixedMusicHazardsDirector : MonoBehaviour
     [Range(0f, 1f)] public float laneWander = 0.7f;
     [Range(0f, 1f)] public float columnWander = 0.7f;
 
-    [Header("Run")] public bool playOnStart = true;
-    public bool endless = true;
-    public int stepsToRun = 64;
+    [Header("Style")] public float waveSpawnJitterY = 0.06f;
+    public float noteSpawnJitterX = 0.06f;
+    public float noteTelegraphScaleY = 1.2f;
+    public float noteTelegraphFade = 0.15f;
 
     [Header("Tokens")] public GameObject tokenPrefab;
-    public int totalTokens = 4;
-    public int firstTokenStep = 4;
-    public int lastTokenStep = 28;
-    public Vector2 tokenOffset = Vector2.zero;
+    public bool tokensUntilGoal = true;
+    [Range(0f, 1f)] public float tokenSpawnChance = 0.5f;
+    public int minStepsBetweenToken = 2;
+    public Vector2 tokenOffsetForNotes = Vector2.zero;
+    public Vector2 tokenOffsetForWaves = Vector2.zero;
 
-    HashSet<int> _tokenSteps;
-    int _tokensSpawned;
+    [Header("Token Speed (multiplier)")] public float tokenFallSpeedMul = 1f;
+    public float tokenSlideSpeedMul = 1f;
+
+    TokenGoal _goal;
+
     int _steps;
-    bool _nextTokenFalls = true;
+    int _lastTokenStep = -999;
+    int _stepIndex;
+    int _lastTokenWaveStep = -999;
+    int _lastTokenNoteStep = -999;
+
+    int safeLane, safeColumn;
+    bool _useWavesNext = true;
 
     float StepDuration => 60f / Mathf.Max(1f, bpm) / Mathf.Max(1, stepsPerBeat);
-    int safeLane, safeColumn;
-    System.Random rng;
 
     void Start()
     {
-        rng = new System.Random();
+        _goal = FindAnyObjectByType<TokenGoal>();
         safeLane = Mathf.Clamp(lanes / 2, 0, Mathf.Max(0, lanes - 1));
         safeColumn = Mathf.Clamp(columns / 2, 0, Mathf.Max(0, columns - 1));
-
-        _tokenSteps = new HashSet<int>();
-        int lo = Mathf.Max(0, firstTokenStep);
-        int hi = Mathf.Max(lo + 1, lastTokenStep);
-        while (_tokenSteps.Count < totalTokens)
-            _tokenSteps.Add(UnityEngine.Random.Range(lo, hi));
-
         if (playOnStart) StartCoroutine(Run());
     }
 
     IEnumerator Run()
     {
         int steps = 0;
-        while (endless || steps < stepsToRun)
+
+        while (true)
         {
-            int nextLane = PickNextIndex(safeLane, lanes, maxLaneDeltaPerStep, laneWander);
-            int nextCol = PickNextIndex(safeColumn, columns, maxColumnDeltaPerStep, columnWander);
-
-            Telegraph(nextLane, nextCol);
-            yield return new WaitForSeconds(telegraphLead);
-
-            SpawnStep(nextLane, nextCol);
-
-            // token on safe path: alternate fall/slide
-            if (tokenPrefab && _tokenSteps.Contains(_steps) && _tokensSpawned < totalTokens)
+            // Alternate between a wave step and a notes step
+            if (_useWavesNext)
             {
-                if (_nextTokenFalls)
+                int nextSafe = PickNextSafeLane();
+                TelegraphWave(nextSafe);
+                yield return new WaitForSeconds(telegraphLead);
+
+                SpawnWaveStep(nextSafe);
+
+                if (tokenPrefab && TokensNeeded() &&
+                    (_stepIndex - _lastTokenWaveStep) >= minStepsBetweenToken &&
+                    Random.value < tokenSpawnChance)
                 {
-                    Vector3 p = new Vector3(ColumnX(nextCol), spawnY_Notes, 0f) + (Vector3)tokenOffset;
+                    Vector3 p = new Vector3(spawnX_Waves, LaneY(nextSafe), 0f) + (Vector3)tokenOffsetForWaves;
                     var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
-                    var ct = tok.GetComponent<CollectibleToken>();
-                    if (ct == null) ct = tok.AddComponent<CollectibleToken>();
-                    ct.moveMode = CollectibleToken.MoveMode.Fall;
-                    ct.moveSpeed = noteSpeed;
-                    ct.killY = killY_Notes;
-                }
-                else
-                {
-                    Vector3 p = new Vector3(spawnX_Waves, LaneY(nextLane), 0f) + (Vector3)tokenOffset;
-                    var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
-                    var ct = tok.GetComponent<CollectibleToken>();
-                    if (ct == null) ct = tok.AddComponent<CollectibleToken>();
+                    var ct = tok.GetComponent<CollectibleToken>() ?? tok.AddComponent<CollectibleToken>();
                     ct.moveMode = CollectibleToken.MoveMode.Slide;
-                    ct.moveSpeed = waveSpeed;
-                    ct.killX = killX_Waves - waveLifePadding;
+                    ct.moveSpeed = waveSpeed * tokenSlideSpeedMul;
+                    ct.killX = killX_Waves;
+
+                    _lastTokenWaveStep = _stepIndex;
                 }
 
-                _nextTokenFalls = !_nextTokenFalls;
-                _tokensSpawned++;
+                _stepIndex++;
+                yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
+                safeLane = nextSafe;
+            }
+            else
+            {
+                int nextSafe = PickNextSafeColumn();
+                TelegraphNote(nextSafe);
+                yield return new WaitForSeconds(telegraphLead);
+
+                SpawnNoteStep(nextSafe);
+
+                if (tokenPrefab && TokensNeeded() &&
+                    (_stepIndex - _lastTokenNoteStep) >= minStepsBetweenToken &&
+                    Random.value < tokenSpawnChance)
+                {
+                    Vector3 p = new Vector3(ColumnX(nextSafe), spawnY_Notes, 0f) + (Vector3)tokenOffsetForNotes;
+                    var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
+                    var ct = tok.GetComponent<CollectibleToken>() ?? tok.AddComponent<CollectibleToken>();
+                    ct.moveMode = CollectibleToken.MoveMode.Fall;
+                    ct.moveSpeed = noteSpeed * tokenFallSpeedMul;
+                    ct.killY = killY_Notes;
+
+                    _lastTokenNoteStep = _stepIndex;
+                }
+
+                _stepIndex++;
+                yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
+                safeColumn = nextSafe;
             }
 
-            _steps++;
-
-            yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
-            safeLane = nextLane;
-            safeColumn = nextCol;
+            _useWavesNext = !_useWavesNext;
             steps++;
         }
     }
 
-    int PickNextIndex(int current, int count, int maxDelta, float wander)
+    bool TokensNeeded() => !tokensUntilGoal || _goal == null || _goal.NeedsTokens();
+
+    int PickNextSafeLane()
     {
-        List<int> opts = new List<int>();
-        for (int d = -maxDelta; d <= maxDelta; d++)
+        List<int> candidates = new List<int>();
+        for (int d = -maxLaneDeltaPerStep; d <= maxLaneDeltaPerStep; d++)
         {
-            int v = Mathf.Clamp(current + d, 0, count - 1);
-            if (!opts.Contains(v)) opts.Add(v);
+            int lane = safeLane + d;
+            if (lane < 0 || lane >= lanes) continue;
+            candidates.Add(lane);
         }
 
-        if (rng.NextDouble() < wander && opts.Count > 1)
+        if (candidates.Count == 0) return safeLane;
+
+        if (Random.value < laneWander)
         {
-            opts.Remove(current);
-            return opts[rng.Next(opts.Count)];
+            candidates.RemoveAll(c => Mathf.Abs(c - safeLane) != 1);
+            if (candidates.Count == 0) return safeLane;
         }
 
-        return current;
+        return candidates[Random.Range(0, candidates.Count)];
     }
 
-    void Telegraph(int laneSafe, int colSafe)
+    int PickNextSafeColumn()
     {
-        if (telegraphLane)
+        List<int> candidates = new List<int>();
+        for (int d = -maxColumnDeltaPerStep; d <= maxColumnDeltaPerStep; d++)
         {
-            for (int lane = 0; lane < lanes; lane++)
-            {
-                if (lane == laneSafe) continue;
-                Vector3 pos = new Vector3(spawnX_Waves, LaneY(lane), 0f);
-                var t = Instantiate(telegraphLane, pos, Quaternion.identity);
-                var tm = t.GetComponent<TelegraphMarker>();
-                if (tm)
-                {
-                    tm.duration = telegraphLead;
-                    tm.width = waveLength;
-                }
-            }
+            int col = safeColumn + d;
+            if (col < 0 || col >= columns) continue;
+            candidates.Add(col);
         }
 
-        if (telegraphColumn)
+        if (candidates.Count == 0) return safeColumn;
+
+        if (Random.value < columnWander)
         {
-            for (int c = 0; c < columns; c++)
-            {
-                if (c == colSafe) continue;
-                Vector3 pos = new Vector3(ColumnX(c), spawnY_Notes, 0f);
-                var t = Instantiate(telegraphColumn, pos, Quaternion.identity);
-                var tm = t.GetComponent<TelegraphMarker>();
-                if (tm) tm.duration = telegraphLead;
-            }
+            candidates.RemoveAll(c => Mathf.Abs(c - safeColumn) != 1);
+            if (candidates.Count == 0) return safeColumn;
+        }
+
+        return candidates[Random.Range(0, candidates.Count)];
+    }
+
+    void TelegraphWave(int safe)
+    {
+        if (!waveTelegraphPrefab) return;
+
+        for (int lane = 0; lane < lanes; lane++)
+        {
+            if (lane == safe) continue;
+            var pos = new Vector3(spawnX_Waves, LaneY(lane), 0f);
+            var go = Instantiate(waveTelegraphPrefab, pos, Quaternion.identity);
+            Destroy(go, telegraphLead + 0.1f);
         }
     }
 
-    void SpawnStep(int laneSafe, int colSafe)
+    void TelegraphNote(int safe)
     {
+        if (!noteTelegraphPrefab) return;
+
+        for (int col = 0; col < columns; col++)
+        {
+            if (col == safe) continue;
+            var pos = new Vector3(ColumnX(col), spawnY_Notes, 0f);
+            var go = Instantiate(noteTelegraphPrefab, pos, Quaternion.identity);
+            go.transform.localScale =
+                new Vector3(go.transform.localScale.x, noteTelegraphScaleY, go.transform.localScale.z);
+            var sr = go.GetComponent<SpriteRenderer>();
+            if (sr) StartCoroutine(FadeAfter(sr, telegraphLead, noteTelegraphFade));
+            Destroy(go, telegraphLead + noteTelegraphFade + 0.05f);
+        }
+    }
+
+    IEnumerator FadeAfter(SpriteRenderer sr, float delay, float fadeTime)
+    {
+        yield return new WaitForSeconds(delay);
+        if (!sr) yield break;
+
+        float t = 0f;
+        var c0 = sr.color;
+        while (t < fadeTime)
+        {
+            t += Time.deltaTime;
+            float a = Mathf.Lerp(1f, 0f, Mathf.Clamp01(t / fadeTime));
+            sr.color = new Color(c0.r, c0.g, c0.b, a);
+            yield return null;
+        }
+
+        if (sr) sr.enabled = false;
+    }
+
+    void SpawnWaveStep(int laneSafe)
+    {
+        if (!wavePrefab) return;
+
         for (int lane = 0; lane < lanes; lane++)
         {
             if (lane == laneSafe) continue;
-            var go = Instantiate(wavePrefab, new Vector3(spawnX_Waves, LaneY(lane), 0f), Quaternion.identity);
+            var pos = new Vector3(spawnX_Waves, LaneY(lane), 0f);
+            var go = Instantiate(wavePrefab, pos, Quaternion.identity);
             var seg = go.GetComponent<WaveSegment>();
             if (seg)
             {
@@ -184,11 +249,19 @@ public class MixedMusicHazardsDirector : MonoBehaviour
                 seg.killX = killX_Waves - waveLifePadding;
             }
         }
+    }
 
-        for (int c = 0; c < columns; c++)
+    void SpawnNoteStep(int safeCol)
+    {
+        if (!noteRainPrefab) return;
+
+        for (int col = 0; col < columns; col++)
         {
-            if (c == colSafe) continue;
-            var go = Instantiate(notePrefab, new Vector3(ColumnX(c), spawnY_Notes, 0f), Quaternion.identity);
+            if (col == safeCol) continue;
+
+            float jitter = Random.Range(-noteSpawnJitterX, noteSpawnJitterX);
+            var p = new Vector3(ColumnX(col) + jitter, spawnY_Notes, 0f);
+            var go = Instantiate(noteRainPrefab, p, Quaternion.identity);
             var fn = go.GetComponent<FallingNote>();
             if (fn)
             {
@@ -208,33 +281,32 @@ public class MixedMusicHazardsDirector : MonoBehaviour
     float ColumnX(int col)
     {
         if (columns <= 0) return 0f;
-        float t = (columns == 1) ? 0.5f : (col + 0.5f) / columns;
+        float t = (col + 0.5f) / columns;
         return Mathf.Lerp(leftX_Notes, rightX_Notes, t);
     }
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(1, 1, 1, 0.25f);
+        // Lanes
+        Gizmos.color = new Color(1, 1, 1, 0.2f);
         for (int i = 0; i < Mathf.Max(1, lanes); i++)
         {
-            float y = (lanes == 1) ? (topY + bottomY) * 0.5f : Mathf.Lerp(topY, bottomY, (i + 0.5f) / lanes);
-            Gizmos.DrawLine(new Vector3(-20, y, 0), new Vector3(20, y, 0));
+            float y = (lanes == 1) ? (topY + bottomY) / 2f : Mathf.Lerp(topY, bottomY, (i + 0.5f) / lanes);
+            Gizmos.DrawLine(new Vector3(-20f, y, 0), new Vector3(20f, y, 0));
         }
 
-        Gizmos.color = new Color(0, 1, 1, 0.2f);
-        for (int c = 0; c < Mathf.Max(1, columns); c++)
-        {
-            float x = (columns == 1)
-                ? (leftX_Notes + rightX_Notes) * 0.5f
-                : Mathf.Lerp(leftX_Notes, rightX_Notes, (c + 0.5f) / columns);
-            Gizmos.DrawLine(new Vector3(x, 20, 0), new Vector3(x, -20, 0));
-        }
-
+        // Wave spawn/kill
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(new Vector3(spawnX_Waves, bottomY - 0.5f, 0), new Vector3(spawnX_Waves, topY + 0.5f, 0));
         Gizmos.color = Color.red;
         Gizmos.DrawLine(new Vector3(killX_Waves, bottomY - 0.5f, 0), new Vector3(killX_Waves, topY + 0.5f, 0));
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(new Vector3(leftX_Notes, spawnY_Notes, 0), new Vector3(rightX_Notes, spawnY_Notes, 0));
+
+        // Note columns
+        Gizmos.color = new Color(1, 1, 1, 0.15f);
+        for (int c = 0; c < Mathf.Max(1, columns); c++)
+        {
+            float x = ColumnX(c);
+            Gizmos.DrawLine(new Vector3(x, spawnY_Notes, 0), new Vector3(x, spawnY_Notes - 0.7f, 0));
+        }
     }
 }

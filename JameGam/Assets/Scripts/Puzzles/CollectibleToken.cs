@@ -18,14 +18,12 @@ public class CollectibleToken : MonoBehaviour
     public MoveMode moveMode = MoveMode.None;
 
     public float moveSpeed = 5f;
-    [Tooltip("Used when mode = Fall")] public float killY = -9999f;
-    [Tooltip("Used when mode = Slide")] public float killX = -9999f;
-
-    Collider2D col;
+    public float killY = -9999f; // for Fall
+    public float killX = -9999f; // for Slide
 
     void Awake()
     {
-        col = GetComponent<Collider2D>();
+        var col = GetComponent<Collider2D>();
         col.isTrigger = true;
     }
 
@@ -52,10 +50,7 @@ public class CollectibleToken : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag(playerTag)) return;
-
-        var goal = FindAnyObjectByType<TokenGoal>();
-        if (goal != null) goal.Add(value);
-
+        FindAnyObjectByType<TokenGoal>()?.Add(value);
         Destroy(gameObject);
     }
 }

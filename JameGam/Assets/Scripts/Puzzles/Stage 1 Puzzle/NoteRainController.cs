@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,20 +14,20 @@ public class NoteRainController : MonoBehaviour
     [Header("Prefabs")] public GameObject noteRainPrefab;
     public GameObject telegramPrefab;
 
-    [Header("Timing")] public float bpm = 120;
+    [Header("Pattern")] [Tooltip("Optional .txt with lines of '.' (safe) and 'x' (danger) with width = columns")]
+    public TextAsset patternText;
+
+    public bool playOnStart = true;
+    public float bpm = 100f;
     public int stepsPerBeat = 2;
-    public float telegrahLead = 0.45f;
 
-    [Header("Patterns")] public TextAsset patternText;
-    [Range(0f, 1f)] public float randomDensity = 0.35f;
+    [Header("Telegraph")] public float telegraphLead = 0.4f;
+    public float telegraphFade = 0.15f;
 
-    [Header("Falling")] public float noteSpeed = 9;
-    public float killY = -6f;
+    [Header("Note Speed")] public float noteSpeed = 12f;
+    public float killY = -6.5f;
 
-    [Header("Debug")] public bool playOnStart = true;
-    public bool loopPattern = true;
-
-    [Header("Always-a-Path Random (recommended)")]
+    [Header("Corridor Mode")] [Tooltip("If true, ignores pattern and runs a moving safe corridor")]
     public bool safeCorridorMode = true;
 
     public int maxColumnDeltaPerStep = 1;
@@ -36,28 +37,27 @@ public class NoteRainController : MonoBehaviour
     public float spawnJitter = 0.06f;
 
     [Header("Tokens")] public GameObject tokenPrefab;
-    public int totalTokens = 4;
-    public int firstTokenStep = 4;
-    public int lastTokenStep = 28;
+    public bool tokensUntilGoal = true;
+    [Range(0f, 1f)] public float tokenSpawnChance = 0.55f;
+    public int minStepsBetweenToken = 2;
     public Vector2 tokenOffset = Vector2.zero;
+
+    [Header("Token Speed (multiplier)")] public float tokenFallSpeedMul = 1f;
 
     HashSet<int> _tokenSteps;
     int _tokensSpawned;
-    int _stepIndex;
+    int _stepIndex, _lastTokenStep = -999;
 
     private List<string> patternLines;
     private int currentSafeCol;
     private float StepDuration => 60f / Mathf.Max(1f, bpm) / Mathf.Max(1, stepsPerBeat);
 
+    TokenGoal _goal;
+
     void Start()
     {
         LoadPattern();
-
-        _tokenSteps = new HashSet<int>();
-        int lo = Mathf.Max(0, firstTokenStep);
-        int hi = Mathf.Max(lo + 1, lastTokenStep);
-        while (_tokenSteps.Count < totalTokens)
-            _tokenSteps.Add(UnityEngine.Random.Range(lo, hi));
+        _goal = FindAnyObjectByType<TokenGoal>();
 
         currentSafeCol = Mathf.Clamp(columns / 2, 0, Mathf.Max(0, columns - 1));
         if (playOnStart) StartCoroutine(Run());
@@ -68,7 +68,7 @@ public class NoteRainController : MonoBehaviour
         if (patternText != null)
         {
             patternLines = patternText.text
-                .Split('\n')
+                .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.TrimEnd('\r'))
                 .Where(s => !string.IsNullOrEmpty(s))
                 .ToList();
@@ -81,7 +81,10 @@ public class NoteRainController : MonoBehaviour
                 patternLines[i] = ln;
             }
         }
-        else patternLines = null;
+        else
+        {
+            patternLines = null;
+        }
     }
 
     IEnumerator Run()
@@ -95,130 +98,156 @@ public class NoteRainController : MonoBehaviour
                 if (safeCorridorMode)
                 {
                     int nextSafe = PickNextSafeColumn();
+                    Telegraph(nextSafe);
+                    yield return new WaitForSeconds(telegraphLead);
 
-                    if (tokenPrefab && _tokenSteps.Contains(_stepIndex) && _tokensSpawned < totalTokens)
+                    SpawnStep(nextSafe);
+
+                    // Maybe spawn a token (in the safe column)
+                    if (tokenPrefab && TokensNeeded() && (_stepIndex - _lastTokenStep) >= minStepsBetweenToken &&
+                        UnityEngine.Random.value < tokenSpawnChance)
                     {
                         Vector3 p = new Vector3(ColumnX(nextSafe), spawnY, 0f) + (Vector3)tokenOffset;
                         var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
-                        var ct = tok.GetComponent<CollectibleToken>();
-                        if (ct == null) ct = tok.AddComponent<CollectibleToken>();
+                        var ct = tok.GetComponent<CollectibleToken>() ?? tok.AddComponent<CollectibleToken>();
                         ct.moveMode = CollectibleToken.MoveMode.Fall;
-                        ct.moveSpeed = noteSpeed;
+                        ct.moveSpeed = noteSpeed * tokenFallSpeedMul;
                         ct.killY = killY;
-                        _tokensSpawned++;
+
+                        _lastTokenStep = _stepIndex;
                     }
 
                     _stepIndex++;
-
-                    for (int c = 0; c < columns; c++)
-                    {
-                        if (c == nextSafe) continue;
-                        QueueDrop(c, extraDelay: UnityEngine.Random.Range(0f, spawnJitter));
-                    }
-
+                    yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
                     currentSafeCol = nextSafe;
                 }
                 else
                 {
-                    int safeChosen = -1;
-                    for (int c = 0; c < columns; c++)
-                    {
-                        bool drop = UnityEngine.Random.value < randomDensity;
-                        if (c == columns - 1 && safeChosen < 0) drop = true;
-
-                        if (drop) QueueDrop(c, extraDelay: UnityEngine.Random.Range(0f, spawnJitter));
-                        else if (safeChosen < 0) safeChosen = c;
-                    }
-
-                    if (safeChosen < 0) safeChosen = UnityEngine.Random.Range(0, columns);
+                    // No pattern and not in corridor mode; just idle this frame
+                    yield return null;
                 }
             }
             else
             {
-                string line = patternLines[row];
-
-                List<int> safeCols = new List<int>();
-                for (int c = 0; c < Mathf.Min(columns, line.Length); c++)
-                    if (!(line[c] == 'x' || line[c] == 'X' || line[c] == '1'))
-                        safeCols.Add(c);
-
-                if (tokenPrefab && safeCols.Count > 0 && _tokenSteps.Contains(_stepIndex) &&
-                    _tokensSpawned < totalTokens)
+                string ln = patternLines[row % patternLines.Count];
+                // safe = '.', danger = 'x' (or anything not '.')
+                int safeCol = -1;
+                for (int c = 0; c < ln.Length; c++)
                 {
-                    int col = safeCols[UnityEngine.Random.Range(0, safeCols.Count)];
-                    Vector3 p = new Vector3(ColumnX(col), spawnY, 0f) + (Vector3)tokenOffset;
+                    if (ln[c] == '.') safeCol = c;
+                }
+
+                int nextSafe = (safeCol >= 0) ? safeCol : currentSafeCol;
+
+                Telegraph(nextSafe);
+                yield return new WaitForSeconds(telegraphLead);
+
+                SpawnStep(nextSafe);
+
+                // token (optional)
+                if (tokenPrefab && TokensNeeded() && (_stepIndex - _lastTokenStep) >= minStepsBetweenToken &&
+                    UnityEngine.Random.value < tokenSpawnChance)
+                {
+                    Vector3 p = new Vector3(ColumnX(nextSafe), spawnY, 0f) + (Vector3)tokenOffset;
                     var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
-                    var ct = tok.GetComponent<CollectibleToken>();
-                    if (ct == null) ct = tok.AddComponent<CollectibleToken>();
+                    var ct = tok.GetComponent<CollectibleToken>() ?? tok.AddComponent<CollectibleToken>();
                     ct.moveMode = CollectibleToken.MoveMode.Fall;
-                    ct.moveSpeed = noteSpeed;
+                    ct.moveSpeed = noteSpeed * tokenFallSpeedMul;
                     ct.killY = killY;
-                    _tokensSpawned++;
+
+                    _lastTokenStep = _stepIndex;
                 }
 
                 _stepIndex++;
-
-                for (int c = 0; c < Mathf.Min(columns, line.Length); c++)
-                    if (line[c] == 'x' || line[c] == 'X' || line[c] == '1')
-                        QueueDrop(c, extraDelay: 0f);
-
                 row++;
-                if (row >= patternLines.Count)
-                {
-                    if (loopPattern) row = 0;
-                    else yield break;
-                }
+                yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
+                currentSafeCol = nextSafe;
             }
-
-            yield return new WaitForSeconds(StepDuration);
         }
     }
+
+    bool TokensNeeded() => !tokensUntilGoal || _goal == null || _goal.NeedsTokens();
 
     int PickNextSafeColumn()
     {
-        List<int> opts = new List<int>();
+        List<int> candidates = new List<int>();
         for (int d = -maxColumnDeltaPerStep; d <= maxColumnDeltaPerStep; d++)
         {
-            int v = Mathf.Clamp(currentSafeCol + d, 0, columns - 1);
-            if (!opts.Contains(v)) opts.Add(v);
+            int c = currentSafeCol + d;
+            if (c < 0 || c >= columns) continue;
+            candidates.Add(c);
         }
 
-        if (UnityEngine.Random.value < corridorWander && opts.Count > 1)
+        if (candidates.Count == 0) return currentSafeCol;
+
+        // Weighted wander towards neighbors
+        if (UnityEngine.Random.value < corridorWander)
         {
-            opts.Remove(currentSafeCol);
-            return opts[UnityEngine.Random.Range(0, opts.Count)];
+            candidates.RemoveAll(c => Mathf.Abs(c - currentSafeCol) != 1);
+            if (candidates.Count == 0) return currentSafeCol;
         }
 
-        return currentSafeCol;
+        return candidates[UnityEngine.Random.Range(0, candidates.Count)];
     }
 
-    void QueueDrop(int col, float extraDelay)
+    void Telegraph(int safeCol)
     {
-        Vector3 spawn = new Vector3(ColumnX(col), spawnY, 0f);
+        if (!telegramPrefab) return;
 
-        if (telegramPrefab != null)
+        for (int c = 0; c < columns; c++)
         {
-            var t = Instantiate(telegramPrefab, spawn, Quaternion.identity);
-            if (telegraphScaleY > 0f)
-                t.transform.localScale = new Vector3(t.transform.localScale.x, telegraphScaleY, 1f);
-            var tm = t.GetComponent<TelegraphMarker>();
-            if (tm) tm.duration = telegrahLead;
-        }
+            if (c == safeCol) continue;
 
-        StartCoroutine(SpawnAfter(col, telegrahLead + extraDelay));
+            var go = Instantiate(telegramPrefab, new Vector3(ColumnX(c), spawnY, 0f), Quaternion.identity);
+            go.transform.localScale =
+                new Vector3(go.transform.localScale.x, telegraphScaleY, go.transform.localScale.z);
+            var sr = go.GetComponent<SpriteRenderer>();
+            if (sr)
+            {
+                StartCoroutine(FadeAfter(sr, telegraphLead, telegraphFade));
+            }
+
+            Destroy(go, telegraphLead + telegraphFade + 0.05f);
+        }
     }
 
-    IEnumerator SpawnAfter(int col, float delay)
+    IEnumerator FadeAfter(SpriteRenderer sr, float delay, float fadeTime)
     {
         yield return new WaitForSeconds(delay);
-        if (!noteRainPrefab) yield break;
+        if (!sr) yield break;
 
-        var note = Instantiate(noteRainPrefab, new Vector3(ColumnX(col), spawnY, 0f), Quaternion.identity);
-        var fn = note.GetComponent<FallingNote>();
-        if (fn)
+        float t = 0f;
+        var c0 = sr.color;
+        while (t < fadeTime)
         {
-            fn.speed = noteSpeed;
-            fn.killY = killY;
+            t += Time.deltaTime;
+            float a = Mathf.Lerp(1f, 0f, Mathf.Clamp01(t / fadeTime));
+            sr.color = new Color(c0.r, c0.g, c0.b, a);
+            yield return null;
+        }
+
+        if (sr) sr.enabled = false;
+    }
+
+    void SpawnStep(int safeCol)
+    {
+        if (!noteRainPrefab) return;
+
+        // Spawn in all but the safe column
+        for (int c = 0; c < columns; c++)
+        {
+            if (c == safeCol) continue;
+
+            float jitter = UnityEngine.Random.Range(-spawnJitter, spawnJitter);
+            var p = new Vector3(ColumnX(c) + jitter, spawnY, 0f);
+            var go = Instantiate(noteRainPrefab, p, Quaternion.identity);
+
+            var fn = go.GetComponent<FallingNote>();
+            if (fn)
+            {
+                fn.speed = noteSpeed;
+                fn.killY = killY;
+            }
         }
     }
 

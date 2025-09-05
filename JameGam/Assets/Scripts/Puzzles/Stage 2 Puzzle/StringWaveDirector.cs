@@ -13,119 +13,184 @@ public class StringWaveDirector : MonoBehaviour
     [Header("Prefabs")] public GameObject wavePrefab;
     public GameObject telegraphPrefab;
 
-    [Header("Timing (music-like)")] public float bpm = 110f;
+    [Header("Pattern")] [Tooltip("Optional .txt with lines of '.' (safe) and 'x' (danger) with height = lanes")]
+    public TextAsset patternText;
+
+    public bool playOnStart = true;
+    public float bpm = 100f;
     public int stepsPerBeat = 2;
-    public float telegraphLead = 0.40f;
+    public float telegraphLead = 0.35f;
 
-    [Header("Waves")] public float waveSpeed = 8.5f;
-    public float waveLength = 3.0f;
-    public float waveLifePadding = 1.0f;
+    [Header("Wave Params")] public float waveSpeed = 8.0f;
+    public float waveLength = 2.8f;
+    public float waveLifePadding = 0.4f;
 
-    [Header("Path Constraints")] public int maxLaneChangePerStep = 1;
-    [Range(0f, 1f)] public float wander = 0.6f;
+    [Header("Corridor Mode")] public bool safeCorridorMode = true;
+    public int maxLaneChangePerStep = 1;
+    [Range(0f, 1f)] public float corridorWander = 0.7f;
 
-    [Header("Start/Loop")] public bool playOnStart = true;
-    public bool endless = true;
-    public int stepsToRun = 64;
+    [Header("Randomization")] public float spawnJitterY = 0.06f;
+
+    [Header("Runtime")] public int stepsToRun = 64;
 
     [Header("Tokens")] public GameObject tokenPrefab;
-    public int totalTokens = 4;
-    public int firstTokenStep = 4;
-    public int lastTokenStep = 28;
+    public bool tokensUntilGoal = true;
+    [Range(0f, 1f)] public float tokenSpawnChance = 0.55f;
+    public int minStepsBetweenToken = 2;
     public Vector2 tokenOffset = Vector2.zero;
 
-    HashSet<int> _tokenSteps;
-    int _tokensSpawned;
-    int _steps;
+    [Header("Token Speed (multiplier)")] public float tokenSlideSpeedMul = 1f;
+
+    TokenGoal _goal;
+    int _steps, _lastTokenStep = -999;
 
     float StepDuration => 60f / Mathf.Max(1f, bpm) / Mathf.Max(1, stepsPerBeat);
     int currentSafeLane;
-    System.Random rng;
+
+    List<string> patternLines;
 
     void Start()
     {
-        rng = new System.Random();
+        LoadPattern();
+        _goal = FindAnyObjectByType<TokenGoal>();
         currentSafeLane = Mathf.Clamp(lanes / 2, 0, Mathf.Max(0, lanes - 1));
-
-        _tokenSteps = new HashSet<int>();
-        int lo = Mathf.Max(0, firstTokenStep);
-        int hi = Mathf.Max(lo + 1, lastTokenStep);
-        while (_tokenSteps.Count < totalTokens)
-            _tokenSteps.Add(UnityEngine.Random.Range(lo, hi));
-
         if (playOnStart) StartCoroutine(Run());
+    }
+
+    void LoadPattern()
+    {
+        if (patternText == null)
+        {
+            patternLines = null;
+            return;
+        }
+
+        var raw = patternText.text.Replace("\r", "");
+        var lines = new List<string>(raw.Split('\n'));
+        lines.RemoveAll(string.IsNullOrWhiteSpace);
+
+        patternLines = lines;
     }
 
     IEnumerator Run()
     {
         int steps = 0;
-        while (endless || steps < stepsToRun)
+
+        while (true)
         {
-            int nextSafe = PickNextSafeLane();
-
-            TelegraphRow(nextSafe);
-            yield return new WaitForSeconds(telegraphLead);
-
-            SpawnRow(nextSafe);
-
-            if (tokenPrefab && _tokenSteps.Contains(_steps) && _tokensSpawned < totalTokens)
+            if (patternLines == null || patternLines.Count == 0)
             {
-                Vector3 p = new Vector3(spawnX, LaneY(nextSafe), 0f) + (Vector3)tokenOffset;
-                var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
-                var ct = tok.GetComponent<CollectibleToken>();
-                if (ct == null) ct = tok.AddComponent<CollectibleToken>();
-                ct.moveMode = CollectibleToken.MoveMode.Slide;
-                ct.moveSpeed = waveSpeed;
-                ct.killX = killX - waveLifePadding;
-                _tokensSpawned++;
+                if (!safeCorridorMode)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                int nextSafe = PickNextSafeLane();
+
+                Telegraph(nextSafe);
+                yield return new WaitForSeconds(telegraphLead);
+
+                SpawnStep(nextSafe);
+
+                // Maybe spawn a token in the safe lane
+                if (tokenPrefab && TokensNeeded() && (_steps - _lastTokenStep) >= minStepsBetweenToken &&
+                    Random.value < tokenSpawnChance)
+                {
+                    Vector3 p = new Vector3(spawnX, LaneY(nextSafe), 0f) + (Vector3)tokenOffset;
+                    var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
+                    var ct = tok.GetComponent<CollectibleToken>() ?? tok.AddComponent<CollectibleToken>();
+                    ct.moveMode = CollectibleToken.MoveMode.Slide;
+                    ct.moveSpeed = waveSpeed * tokenSlideSpeedMul;
+                    ct.killX = killX;
+
+                    _lastTokenStep = _steps;
+                }
+
+                _steps++;
+                yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
+                currentSafeLane = nextSafe;
+                steps++;
             }
+            else
+            {
+                // Choose the only '.' lane as safe (or fallback to current).
+                int nextSafe = currentSafeLane;
+                for (int lane = 0; lane < lanes && lane < patternLines.Count; lane++)
+                {
+                    var row = patternLines[lane];
+                    int idx = steps % Mathf.Max(1, row.Length);
+                    char ch = row[idx];
+                    if (ch == '.') nextSafe = lane;
+                }
 
-            _steps++;
+                Telegraph(nextSafe);
+                yield return new WaitForSeconds(telegraphLead);
 
-            yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
-            currentSafeLane = nextSafe;
-            steps++;
+                SpawnStep(nextSafe);
+
+                // token?
+                if (tokenPrefab && TokensNeeded() && (_steps - _lastTokenStep) >= minStepsBetweenToken &&
+                    Random.value < tokenSpawnChance)
+                {
+                    Vector3 p = new Vector3(spawnX, LaneY(nextSafe), 0f) + (Vector3)tokenOffset;
+                    var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
+                    var ct = tok.GetComponent<CollectibleToken>() ?? tok.AddComponent<CollectibleToken>();
+                    ct.moveMode = CollectibleToken.MoveMode.Slide;
+                    ct.moveSpeed = waveSpeed * tokenSlideSpeedMul;
+                    ct.killX = killX;
+
+                    _lastTokenStep = _steps;
+                }
+
+                _steps++;
+
+                yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
+                currentSafeLane = nextSafe;
+                steps++;
+            }
         }
     }
+
+    bool TokensNeeded() => !_goal || _goal.NeedsTokens();
 
     int PickNextSafeLane()
     {
         List<int> candidates = new List<int>();
         for (int d = -maxLaneChangePerStep; d <= maxLaneChangePerStep; d++)
         {
-            int lane = Mathf.Clamp(currentSafeLane + d, 0, lanes - 1);
-            if (!candidates.Contains(lane)) candidates.Add(lane);
+            int lane = currentSafeLane + d;
+            if (lane < 0 || lane >= lanes) continue;
+            candidates.Add(lane);
         }
 
-        int stay = currentSafeLane;
-        if (rng.NextDouble() < wander)
+        if (candidates.Count == 0) return currentSafeLane;
+
+        if (Random.value < corridorWander)
         {
-            candidates.Remove(stay);
-            if (candidates.Count > 0) return candidates[rng.Next(candidates.Count)];
+            candidates.RemoveAll(c => Mathf.Abs(c - currentSafeLane) != 1);
+            if (candidates.Count == 0) return currentSafeLane;
         }
 
-        return stay;
+        return candidates[Random.Range(0, candidates.Count)];
     }
 
-    void TelegraphRow(int safeLane)
+    void Telegraph(int safeLane)
     {
         if (!telegraphPrefab) return;
         for (int lane = 0; lane < lanes; lane++)
         {
             if (lane == safeLane) continue;
-            var pos = new Vector3(spawnX, LaneY(lane), 0f);
-            var t = Instantiate(telegraphPrefab, pos, Quaternion.identity);
-            var tm = t.GetComponent<TelegraphMarker>();
-            if (tm)
-            {
-                tm.duration = telegraphLead;
-                tm.width = waveLength;
-            }
+            var p = new Vector3(spawnX, LaneY(lane), 0f);
+            var go = Instantiate(telegraphPrefab, p, Quaternion.identity);
+            Destroy(go, telegraphLead + 0.1f);
         }
     }
 
-    void SpawnRow(int safeLane)
+    void SpawnStep(int safeLane)
     {
+        if (!wavePrefab) return;
+
         for (int lane = 0; lane < lanes; lane++)
         {
             if (lane == safeLane) continue;
