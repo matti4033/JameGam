@@ -11,21 +11,27 @@ public class Menus : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!paused)
         {
-            if (!paused && !GameManager.Instance.GameDoneZooooooo)
+            paused = false;
+            Time.timeScale = 1f;
+            pauseMenu.SetActive(false);
+
+        }
+
+        if(!paused)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                paused = true;
-                Time.timeScale = 0f;
-                pauseMenu.SetActive(true);
-            }
-            else
-            {
-                paused = false;
-                Time.timeScale = 1f;
-                pauseMenu.SetActive(false);
+                if (!paused || !GameManager.Instance.GameDoneZooooooo)
+                {
+                    paused = true;
+                    Time.timeScale = 0f;
+                    pauseMenu.SetActive(true);
+                }
             }
         }
+
     }
 
     public void StartGame()
@@ -38,6 +44,7 @@ public class Menus : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         pauseMenu.SetActive(false);
+        paused = false;
     }
 
     public void MainMenu()

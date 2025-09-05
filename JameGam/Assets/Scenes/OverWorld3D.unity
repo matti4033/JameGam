@@ -699,7 +699,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UiText: {fileID: 2017733788}
   pauseMenu: {fileID: 0}
-  paused: 0
 --- !u!1 &755933849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,13 +1027,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 176286596636817609, guid: 26a394256d89d4145a07688d533040c6, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2345796552496006977, guid: 26a394256d89d4145a07688d533040c6, type: 3}
       propertyPath: gameMananger
       value: 
       objectReference: {fileID: 1060619914}
+    - target: {fileID: 7093364586354778939, guid: 26a394256d89d4145a07688d533040c6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8833982095202197380, guid: 26a394256d89d4145a07688d533040c6, type: 3}
       propertyPath: m_Name
       value: Pause Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8833982095202197380, guid: 26a394256d89d4145a07688d533040c6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
