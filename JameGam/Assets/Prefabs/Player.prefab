@@ -114,7 +114,7 @@ MonoBehaviour:
   checkRadius: 0.2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   stringLayer:
     serializedVersion: 2
     m_Bits: 128

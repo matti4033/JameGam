@@ -10,30 +10,33 @@ public class StringWaveDirector : MonoBehaviour
     public float spawnX = 10f;
     public float killX = -10f;
 
-    [Header("Prefabs")] public GameObject wavePrefab; // WaveSegment prefab
+    [Header("Prefabs")] public GameObject wavePrefab;
     public GameObject telegraphPrefab;
 
     [Header("Timing (music-like)")] public float bpm = 110f;
-
-    [Tooltip("Time subdivisions per beat (2 = eighths, 4 = sixteenths).")]
     public int stepsPerBeat = 2;
-
-    [Tooltip("How long before a wave spawns its telegraph appears.")]
     public float telegraphLead = 0.40f;
 
-    [Header("Waves")] public float waveSpeed = 8.5f; // units/sec -> moving left
-    public float waveLength = 3.0f; // collider width in world units
-    public float waveLifePadding = 1.0f; // extra distance past killX before destroy
+    [Header("Waves")] public float waveSpeed = 8.5f;
+    public float waveLength = 3.0f;
+    public float waveLifePadding = 1.0f;
 
-    [Header("Path Constraints")] [Tooltip("Max lane index delta of the safe lane between consecutive steps.")]
-    public int maxLaneChangePerStep = 1;
-
-    [Tooltip("Randomness of how the safe lane wanders (0=straight, 1=wiggly).")] [Range(0f, 1f)]
-    public float wander = 0.6f;
+    [Header("Path Constraints")] public int maxLaneChangePerStep = 1;
+    [Range(0f, 1f)] public float wander = 0.6f;
 
     [Header("Start/Loop")] public bool playOnStart = true;
     public bool endless = true;
     public int stepsToRun = 64;
+
+    [Header("Tokens")] public GameObject tokenPrefab;
+    public int totalTokens = 4;
+    public int firstTokenStep = 4;
+    public int lastTokenStep = 28;
+    public Vector2 tokenOffset = Vector2.zero;
+
+    HashSet<int> _tokenSteps;
+    int _tokensSpawned;
+    int _steps;
 
     float StepDuration => 60f / Mathf.Max(1f, bpm) / Mathf.Max(1, stepsPerBeat);
     int currentSafeLane;
@@ -43,6 +46,13 @@ public class StringWaveDirector : MonoBehaviour
     {
         rng = new System.Random();
         currentSafeLane = Mathf.Clamp(lanes / 2, 0, Mathf.Max(0, lanes - 1));
+
+        _tokenSteps = new HashSet<int>();
+        int lo = Mathf.Max(0, firstTokenStep);
+        int hi = Mathf.Max(lo + 1, lastTokenStep);
+        while (_tokenSteps.Count < totalTokens)
+            _tokenSteps.Add(UnityEngine.Random.Range(lo, hi));
+
         if (playOnStart) StartCoroutine(Run());
     }
 
@@ -52,9 +62,26 @@ public class StringWaveDirector : MonoBehaviour
         while (endless || steps < stepsToRun)
         {
             int nextSafe = PickNextSafeLane();
+
             TelegraphRow(nextSafe);
             yield return new WaitForSeconds(telegraphLead);
+
             SpawnRow(nextSafe);
+
+            if (tokenPrefab && _tokenSteps.Contains(_steps) && _tokensSpawned < totalTokens)
+            {
+                Vector3 p = new Vector3(spawnX, LaneY(nextSafe), 0f) + (Vector3)tokenOffset;
+                var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
+                var ct = tok.GetComponent<CollectibleToken>();
+                if (ct == null) ct = tok.AddComponent<CollectibleToken>();
+                ct.moveMode = CollectibleToken.MoveMode.Slide;
+                ct.moveSpeed = waveSpeed;
+                ct.killX = killX - waveLifePadding;
+                _tokensSpawned++;
+            }
+
+            _steps++;
+
             yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
             currentSafeLane = nextSafe;
             steps++;
@@ -63,7 +90,6 @@ public class StringWaveDirector : MonoBehaviour
 
     int PickNextSafeLane()
     {
-        // Bias to stay, sometimes move up/down within bounds and constraint
         List<int> candidates = new List<int>();
         for (int d = -maxLaneChangePerStep; d <= maxLaneChangePerStep; d++)
         {
@@ -71,7 +97,6 @@ public class StringWaveDirector : MonoBehaviour
             if (!candidates.Contains(lane)) candidates.Add(lane);
         }
 
-        // Wander, chance to move
         int stay = currentSafeLane;
         if (rng.NextDouble() < wander)
         {
@@ -123,7 +148,6 @@ public class StringWaveDirector : MonoBehaviour
         return Mathf.Lerp(topY, bottomY, t);
     }
 
-    // Editor helper
     void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1, 1, 1, 0.25f);
