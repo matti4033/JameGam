@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 126630239424949935}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.12663177, w: 0.9919498}
-  m_LocalPosition: {x: -1.1500628, y: -1.5493683, z: 0}
+  m_LocalPosition: {x: 0.21, y: -1.55, z: 0}
   m_LocalScale: {x: 2.22, y: 2.22, z: 2.22}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -661,18 +661,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossName: GuitarOne
-  maxHealth: 10
-  currentHealth: 0
   moveSpeed: 3
-  stateDuration: 2
+  lifeTime: 0
+  timeAlive: 0
   rb: {fileID: 8821697231314401651}
   player: {fileID: 0}
-  hoverAmplitude: 2
-  hoverSpeed: 2
-  hoverDistance: 10
-  hoverBaseY: 0.7
-  evadeDistance: 5
-  evadeDuration: 2
   projectilePrefabs:
   - {fileID: 9067773500991065964, guid: be1d2dfab9847c84d89a071731a2c9e9, type: 3}
   - {fileID: 5766082614384469166, guid: dfd38365fbad80d4194ff9f104518b3f, type: 3}
