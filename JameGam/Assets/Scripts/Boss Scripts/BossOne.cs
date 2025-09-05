@@ -4,16 +4,16 @@ using System.Collections;
 
 public class BossOne : BaseBoss
 {
-    [Header("Hover Settings")]
-    public float hoverAmplitude = 1f;
-    public float hoverSpeed = 2f;
-    public float hoverDistance = 3f;
-    public float hoverBaseY = 2f;
+    //[Header("Hover Settings")]
+    //public float hoverAmplitude = 1f;
+    //public float hoverSpeed = 2f;
+    //public float hoverDistance = 3f;
+    //public float hoverBaseY = 2f;
 
-    [Header("Evade")]
-    public float evadeDistance = 3f;
-    public float evadeDuration = 0.3f;
-    private bool isEvading = false;
+    //[Header("Evade")]
+    //public float evadeDistance = 3f;
+    //public float evadeDuration = 0.3f;
+    //private bool isEvading = false;
 
     [Header("Attack")]
     public GameObject[] projectilePrefabs;
@@ -31,14 +31,17 @@ public class BossOne : BaseBoss
     protected override void Update()
     {
         base.Update();
-        Hover();
+        //Hover();
 
-        if (attackTimer > 0)
+        if (attackTimer >= 0)
             attackTimer -= Time.deltaTime;
+
+        Attack();
     }
 
     void Attack()
     {
+        Debug.Log("asdasda");
         if (attackTimer > 0) return;
 
         if (projectilePrefabs.Length == 0) return;
@@ -58,51 +61,51 @@ public class BossOne : BaseBoss
         attackTimer = attackCD;
     }
 
-    void DoEvade()
-    {
-        if (!isEvading)
-            StartCoroutine(EvadeRoutine());
-    }
+    //void DoEvade()
+    //{
+    //    if (!isEvading)
+    //        StartCoroutine(EvadeRoutine());
+    //}
 
-    void Hover()
-    {
-        Vector2 target = transform.position;
+    //void Hover()
+    //{
+    //    Vector2 target = transform.position;
 
-        Vector2 dir = (transform.position - player.position).normalized;
-        if (dir == Vector2.zero) dir = Vector2.right;
+    //    Vector2 dir = (transform.position - player.position).normalized;
+    //    if (dir == Vector2.zero) dir = Vector2.right;
 
-        target.x = player.position.x + dir.x * hoverDistance;
+    //    target.x = player.position.x + dir.x * hoverDistance;
 
-        target.y = hoverBaseY + Mathf.Sin(Time.time * hoverSpeed) * hoverAmplitude;
+    //    target.y = hoverBaseY + Mathf.Sin(Time.time * hoverSpeed) * hoverAmplitude;
 
-        if (!isEvading)
-            transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
-        else
-        {
-            Vector2 pos = transform.position;
-            pos.y = target.y;
-            transform.position = pos;
-        }
-    }
+    //    if (!isEvading)
+    //        transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+    //    else
+    //    {
+    //        Vector2 pos = transform.position;
+    //        pos.y = target.y;
+    //        transform.position = pos;
+    //    }
+    //}
 
-    IEnumerator EvadeRoutine()
-    {
-        isEvading = true;
+    //IEnumerator EvadeRoutine()
+    //{
+    //    isEvading = true;
 
-        Vector2 dir = (transform.position - player.position).normalized;
-        if (dir == Vector2.zero) dir = Vector2.right;
+    //    Vector2 dir = (transform.position - player.position).normalized;
+    //    if (dir == Vector2.zero) dir = Vector2.right;
 
-        Vector2 start = transform.position;
-        Vector2 target = start + dir * evadeDistance;
+    //    Vector2 start = transform.position;
+    //    Vector2 target = start + dir * evadeDistance;
 
-        float t = 0;
-        while (t < 1f)
-        {
-            t += Time.deltaTime / evadeDuration;
-            rb.MovePosition(Vector2.Lerp(start, target, t));
-            yield return null;
-        }
+    //    float t = 0;
+    //    while (t < 1f)
+    //    {
+    //        t += Time.deltaTime / evadeDuration;
+    //        rb.MovePosition(Vector2.Lerp(start, target, t));
+    //        yield return null;
+    //    }
 
-        isEvading = false;
-    }
+    //    isEvading = false;
+    //}
 }
