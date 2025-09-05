@@ -107,8 +107,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rb: {fileID: 714862659339308957}
-  jumpVelocity: 3.6
-  jumpBoostMultiplier: 2.5
+  jumpVelocity: 7.5
+  jumpBoostMultiplier: 1.2
   fallMultiplier: 3
   groundCheck: {fileID: 1523427581315678090}
   checkRadius: 0.2
