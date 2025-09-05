@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2075396016669774364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1118150845418685601}
+  - component: {fileID: 8974966495834672582}
+  m_Layer: 0
+  m_Name: NoteRainController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1118150845418685601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075396016669774364}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8974966495834672582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075396016669774364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05d35fe90528fd3489bdb23bce15bf5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  columns: 6
+  leftX: -10
+  rightX: 10
+  spawnY: 6
+  noteRainPrefab: {fileID: 5604433604854315833, guid: cd383cb8bad0df3419190b4337f0193e, type: 3}
+  telegramPrefab: {fileID: 8070457443807674716, guid: 93392c8cd407c414f88ec9b85a994f78, type: 3}
+  bpm: 120
+  stepsPerBeat: 1
+  telegrahLead: 0.45
+  patternText: {fileID: 0}
+  randomDensity: 0.35
+  noteSpeed: 4
+  killY: -6
+  playOnStart: 1
+  loopPattern: 1
+  safeCorridorMode: 1
+  maxColumnDeltaPerStep: 1
+  corridorWander: 0.7
+  telegraphScaleY: 1.2
+  spawnJitter: 0.06
+  tokenPrefab: {fileID: 1214659129735923178, guid: 4eb520f461eb78d4e88f26d37e604b75, type: 3}
+  totalTokens: 4
+  firstTokenStep: 4
+  lastTokenStep: 28
+  tokenY: 0
+  tokenOffset: {x: 0, y: 0}

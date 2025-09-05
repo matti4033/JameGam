@@ -13,39 +13,44 @@ public class MixedMusicHazardsDirector : MonoBehaviour
     public float spawnY_Notes = 6.5f; // notes spawn at top, fall down
     public float killY_Notes = -6.5f;
     public float leftX_Notes = -7.5f; // leftmost column world X
-    public float rightX_Notes = 7.5f; // rightmost column world X
+    public float rightX_Notes = 7.5f;
 
-    [Header("Prefabs")] public GameObject wavePrefab; // WaveSegment
-    public GameObject notePrefab; // FallingNote
-    public GameObject telegraphLane; // TelegraphMarker (horizontal)
-    public GameObject telegraphColumn; // TelegraphMarker (vertical/point)
+    [Header("Prefabs")] public GameObject wavePrefab;
+    public GameObject notePrefab;
+    public GameObject telegraphLane;
+    public GameObject telegraphColumn;
 
     [Header("Timing (music-like)")] public float bpm = 112f;
-
-    [Tooltip("2 = eighths, 4 = sixteenths, etc.")]
     public int stepsPerBeat = 2;
-
-    [Tooltip("Blink time before hazards actually spawn.")]
     public float telegraphLead = 0.40f;
 
     [Header("Waves")] public float waveSpeed = 8.5f;
-    public float waveLength = 3.0f; // collider width (x)
+    public float waveLength = 3.0f;
     public float waveLifePadding = 0.5f;
 
     [Header("Falling Notes")] public float noteSpeed = 10.0f;
 
-    [Header("Path constraints (fairness)")] [Tooltip("How many lanes the safe lane can change per step (usually 1).")]
+    [Header("Path constraints (fairness)")]
     public int maxLaneDeltaPerStep = 1;
 
-    [Tooltip("How many columns the safe column can change per step (usually 1).")]
     public int maxColumnDeltaPerStep = 1;
-
     [Range(0f, 1f)] public float laneWander = 0.7f;
     [Range(0f, 1f)] public float columnWander = 0.7f;
 
     [Header("Run")] public bool playOnStart = true;
     public bool endless = true;
     public int stepsToRun = 64;
+
+    [Header("Tokens")] public GameObject tokenPrefab;
+    public int totalTokens = 4;
+    public int firstTokenStep = 4;
+    public int lastTokenStep = 28;
+    public Vector2 tokenOffset = Vector2.zero;
+
+    HashSet<int> _tokenSteps;
+    int _tokensSpawned;
+    int _steps;
+    bool _nextTokenFalls = true;
 
     float StepDuration => 60f / Mathf.Max(1f, bpm) / Mathf.Max(1, stepsPerBeat);
     int safeLane, safeColumn;
@@ -56,6 +61,13 @@ public class MixedMusicHazardsDirector : MonoBehaviour
         rng = new System.Random();
         safeLane = Mathf.Clamp(lanes / 2, 0, Mathf.Max(0, lanes - 1));
         safeColumn = Mathf.Clamp(columns / 2, 0, Mathf.Max(0, columns - 1));
+
+        _tokenSteps = new HashSet<int>();
+        int lo = Mathf.Max(0, firstTokenStep);
+        int hi = Mathf.Max(lo + 1, lastTokenStep);
+        while (_tokenSteps.Count < totalTokens)
+            _tokenSteps.Add(UnityEngine.Random.Range(lo, hi));
+
         if (playOnStart) StartCoroutine(Run());
     }
 
@@ -72,6 +84,36 @@ public class MixedMusicHazardsDirector : MonoBehaviour
 
             SpawnStep(nextLane, nextCol);
 
+            // token on safe path: alternate fall/slide
+            if (tokenPrefab && _tokenSteps.Contains(_steps) && _tokensSpawned < totalTokens)
+            {
+                if (_nextTokenFalls)
+                {
+                    Vector3 p = new Vector3(ColumnX(nextCol), spawnY_Notes, 0f) + (Vector3)tokenOffset;
+                    var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
+                    var ct = tok.GetComponent<CollectibleToken>();
+                    if (ct == null) ct = tok.AddComponent<CollectibleToken>();
+                    ct.moveMode = CollectibleToken.MoveMode.Fall;
+                    ct.moveSpeed = noteSpeed;
+                    ct.killY = killY_Notes;
+                }
+                else
+                {
+                    Vector3 p = new Vector3(spawnX_Waves, LaneY(nextLane), 0f) + (Vector3)tokenOffset;
+                    var tok = Instantiate(tokenPrefab, p, Quaternion.identity);
+                    var ct = tok.GetComponent<CollectibleToken>();
+                    if (ct == null) ct = tok.AddComponent<CollectibleToken>();
+                    ct.moveMode = CollectibleToken.MoveMode.Slide;
+                    ct.moveSpeed = waveSpeed;
+                    ct.killX = killX_Waves - waveLifePadding;
+                }
+
+                _nextTokenFalls = !_nextTokenFalls;
+                _tokensSpawned++;
+            }
+
+            _steps++;
+
             yield return new WaitForSeconds(Mathf.Max(0f, StepDuration - telegraphLead));
             safeLane = nextLane;
             safeColumn = nextCol;
@@ -81,7 +123,6 @@ public class MixedMusicHazardsDirector : MonoBehaviour
 
     int PickNextIndex(int current, int count, int maxDelta, float wander)
     {
-        // Allowed candidates within delta, clamped to bounds
         List<int> opts = new List<int>();
         for (int d = -maxDelta; d <= maxDelta; d++)
         {
@@ -89,7 +130,6 @@ public class MixedMusicHazardsDirector : MonoBehaviour
             if (!opts.Contains(v)) opts.Add(v);
         }
 
-        // Wander increases chance to move
         if (rng.NextDouble() < wander && opts.Count > 1)
         {
             opts.Remove(current);
@@ -99,10 +139,8 @@ public class MixedMusicHazardsDirector : MonoBehaviour
         return current;
     }
 
-    // Telegraphs
     void Telegraph(int laneSafe, int colSafe)
     {
-        // Telegraph for waves
         if (telegraphLane)
         {
             for (int lane = 0; lane < lanes; lane++)
@@ -115,11 +153,10 @@ public class MixedMusicHazardsDirector : MonoBehaviour
                 {
                     tm.duration = telegraphLead;
                     tm.width = waveLength;
-                } // stretch to wave length
+                }
             }
         }
 
-        // Telegraph for falling notes
         if (telegraphColumn)
         {
             for (int c = 0; c < columns; c++)
@@ -133,14 +170,11 @@ public class MixedMusicHazardsDirector : MonoBehaviour
         }
     }
 
-    // Spawns
     void SpawnStep(int laneSafe, int colSafe)
     {
-        // Waves across all lanes except the safe one
         for (int lane = 0; lane < lanes; lane++)
         {
             if (lane == laneSafe) continue;
-
             var go = Instantiate(wavePrefab, new Vector3(spawnX_Waves, LaneY(lane), 0f), Quaternion.identity);
             var seg = go.GetComponent<WaveSegment>();
             if (seg)
@@ -151,11 +185,9 @@ public class MixedMusicHazardsDirector : MonoBehaviour
             }
         }
 
-        // Falling notes in every column except the safe one
         for (int c = 0; c < columns; c++)
         {
             if (c == colSafe) continue;
-
             var go = Instantiate(notePrefab, new Vector3(ColumnX(c), spawnY_Notes, 0f), Quaternion.identity);
             var fn = go.GetComponent<FallingNote>();
             if (fn)
@@ -166,7 +198,6 @@ public class MixedMusicHazardsDirector : MonoBehaviour
         }
     }
 
-    // Helpers
     float LaneY(int lane)
     {
         if (lanes <= 0) return 0f;
@@ -180,10 +211,9 @@ public class MixedMusicHazardsDirector : MonoBehaviour
         float t = (columns == 1) ? 0.5f : (col + 0.5f) / columns;
         return Mathf.Lerp(leftX_Notes, rightX_Notes, t);
     }
-    
+
     void OnDrawGizmosSelected()
     {
-        // Lanes
         Gizmos.color = new Color(1, 1, 1, 0.25f);
         for (int i = 0; i < Mathf.Max(1, lanes); i++)
         {
@@ -191,7 +221,6 @@ public class MixedMusicHazardsDirector : MonoBehaviour
             Gizmos.DrawLine(new Vector3(-20, y, 0), new Vector3(20, y, 0));
         }
 
-        // Columns
         Gizmos.color = new Color(0, 1, 1, 0.2f);
         for (int c = 0; c < Mathf.Max(1, columns); c++)
         {
@@ -201,7 +230,6 @@ public class MixedMusicHazardsDirector : MonoBehaviour
             Gizmos.DrawLine(new Vector3(x, 20, 0), new Vector3(x, -20, 0));
         }
 
-        // Spawns/Kills
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(new Vector3(spawnX_Waves, bottomY - 0.5f, 0), new Vector3(spawnX_Waves, topY + 0.5f, 0));
         Gizmos.color = Color.red;
