@@ -7,8 +7,11 @@ using System.Collections;
 public class GameplayPlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpVelocity;
     [SerializeField] private Rigidbody2D rb;
+
+    [SerializeField] private float jumpVelocity;
+    [SerializeField] private float jumpBoostMultiplier;
+    [SerializeField] private float fallMultiplier;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float checkRadius;
@@ -31,17 +34,14 @@ public class GameplayPlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer | stringLayer);
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (rb.linearVelocity.y < 0)
         {
-            rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
     }
 
     private void FixedUpdate()
     {
-        //Vector2 movement = new Vector2(moveX, moveY);
-        //rb.linearVelocity = movement * moveSpeed;
-
         rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);
     }
 
@@ -66,7 +66,8 @@ public class GameplayPlayerController : MonoBehaviour
                 }
                 else
                 {
-                    rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+                    float boostedVelocity = jumpVelocity * jumpBoostMultiplier;
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, boostedVelocity);
                 }
             }
         }

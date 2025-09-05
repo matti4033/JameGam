@@ -106,13 +106,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpVelocity: 4
   rb: {fileID: 714862659339308957}
+  jumpVelocity: 3.6
+  jumpBoostMultiplier: 2.5
+  fallMultiplier: 3
   groundCheck: {fileID: 1523427581315678090}
-  checkRadius: 0.1
+  checkRadius: 0.2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 64
   stringLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -143,7 +145,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1747788299150146276
 BoxCollider2D:
   m_ObjectHideFlags: 0
