@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 256593402254618491}
-  - component: {fileID: 758876897022995972}
   - component: {fileID: 3178603333295327707}
   m_Layer: 0
   m_Name: GameManager
@@ -35,23 +34,6 @@ Transform:
   - {fileID: 743937274799605112}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &758876897022995972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1431834334350976551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b18f589157315e4ba8840f08d4c26be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  endMenu: {fileID: 0}
-  bossesdead: 0
-  bossOneDead: 0
-  bossTwoDead: 0
-  bossThreeDead: 0
 --- !u!114 &3178603333295327707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,6 +51,7 @@ MonoBehaviour:
   bossOneDead: 0
   bossTwoDead: 0
   bossThreeDead: 0
+  GameDoneZooooooo: 0
 --- !u!1001 &799436026778526838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -363,3 +346,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 0}
   gameMananger: {fileID: 1431834334350976551}
+  paused: 0
