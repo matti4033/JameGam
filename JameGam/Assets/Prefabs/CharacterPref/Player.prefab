@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1747788299150146276}
   - component: {fileID: -2285492636915973352}
   - component: {fileID: 8845172014885812703}
+  - component: {fileID: 5045750467304343566}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -106,13 +107,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpVelocity: 10
   rb: {fileID: 714862659339308957}
+  jumpVelocity: 10
+  jumpBoostMultiplier: 0
+  fallMultiplier: 0
   groundCheck: {fileID: 1523427581315678090}
   checkRadius: 0.1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   stringLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -330,6 +333,32 @@ MonoBehaviour:
   m_DefaultActionMap: GamePlayer
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5045750467304343566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6543939801979850657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28670b26c01f4c4f9ad44ec634766c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHP: 3
+  capToMax: 0
+  maxHP: 999
+  onHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  regenEnabled: 1
+  regenAmount: 1
+  regenTickInterval: 2
+  regenDelayAfterDamage: 3
+  regenOnlyUpToStartingHP: 1
 --- !u!1 &9064622209533200732
 GameObject:
   m_ObjectHideFlags: 0

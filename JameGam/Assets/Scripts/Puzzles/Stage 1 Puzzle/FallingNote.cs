@@ -31,6 +31,8 @@ public class FallingNote : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
+            var hp = other.GetComponent<PlayerHealth>();
+            if (hp != null) hp.Damage(1);
             // Hook your damage/death logic here
             // other.GetComponent<PlayerHealth>()?.Kill();
             Debug.Log("Player hit by note!");

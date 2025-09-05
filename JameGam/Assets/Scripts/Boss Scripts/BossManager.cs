@@ -38,7 +38,10 @@ public class BossManager : MonoBehaviour
                     break;
             }
         }
-
+        
+        var player = GameObject.FindGameObjectWithTag("Player");
+        player?.GetComponent<PlayerHealth>()?.ApplyBossBonus(2);
+        
         StartCoroutine(EndFight());
     }
 

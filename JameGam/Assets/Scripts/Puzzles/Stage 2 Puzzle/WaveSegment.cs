@@ -23,20 +23,6 @@ public class WaveSegment : MonoBehaviour
         box.isTrigger = true;
     }
 
-    void OnEnable()
-    {
-        // Size collider to desired length
-        if (box != null)
-        {
-            var s = box.size;
-            s.x = Mathf.Max(0.1f, length);
-            box.size = s;
-            var off = box.offset;
-            off.x = -s.x * 0.5f; // so the front edge is at the object's origin
-            box.offset = off;
-        }
-    }
-
     void Update()
     {
         transform.position += Vector3.left * speed * Time.deltaTime;
@@ -47,6 +33,8 @@ public class WaveSegment : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
+            var hp = other.GetComponent<PlayerHealth>();
+            if (hp != null) hp.Damage(1);
             // Hook your damage/respawn here:
             // other.GetComponent<PlayerHealth>()?.Kill();
             Debug.Log("Player hit by wave!");
