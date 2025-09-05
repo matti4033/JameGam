@@ -49,6 +49,6 @@ public class BossManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("OverWorld3D");
     }
 }
