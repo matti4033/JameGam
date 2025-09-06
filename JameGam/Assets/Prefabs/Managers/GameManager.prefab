@@ -320,13 +320,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b18f589157315e4ba8840f08d4c26be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameFinishedMenu: {fileID: 0}
+  gameFinishedMenu: {fileID: 4128798626983781056}
   gameOverMenu: {fileID: 65053345529915086}
   bossesdead: 0
   bossOneDead: 0
   bossTwoDead: 0
   bossThreeDead: 0
   GameDoneZooooooo: 0
+  dead: 0
   playerHeartText: {fileID: 8837360483962924566}
   playerHealth: 0
 --- !u!1 &6640844847993444648
