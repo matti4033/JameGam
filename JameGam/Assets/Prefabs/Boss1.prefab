@@ -91,6 +91,8 @@ MonoBehaviour:
   shootPoint: {fileID: 2431873547980273767}
   attackCD: 1
   attackPhaseDuration: 5
+  normal: {fileID: 918234464441281761, guid: 00837ffc8a4cde04499e16b23e752acd, type: 3}
+  tired: {fileID: -9095231568129689220, guid: 9761c5db538c2d84791add95cadc457e, type: 3}
   attackTimer: 3
 --- !u!50 &8821697231314401651
 Rigidbody2D:
@@ -157,7 +159,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.51, y: 1.24}
+    oldSize: {x: 0.47, y: 1.23}
     newSize: {x: 0.51, y: 1.24}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -209,7 +211,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4415535607762400443, guid: ba1baf6eb1c954c4e895d997c4422637, type: 3}
+  m_Sprite: {fileID: 918234464441281761, guid: 00837ffc8a4cde04499e16b23e752acd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

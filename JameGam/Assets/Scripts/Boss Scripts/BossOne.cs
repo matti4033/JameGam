@@ -10,6 +10,11 @@ public class BossOne : BaseBoss
     public float attackCD;
     public float attackPhaseDuration;
 
+    [SerializeField] private Sprite normal;
+    [SerializeField] private Sprite tired;
+
+    private SpriteRenderer sr;
+
     public float attackTimer;
 
     protected override void Start()
@@ -17,6 +22,7 @@ public class BossOne : BaseBoss
         base.Start();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        sr = GetComponent<SpriteRenderer>();
 
         StartBossPhases();
     }
@@ -31,8 +37,17 @@ public class BossOne : BaseBoss
 
         while (!IsDead)
         {
-            while (IsTired)
+            if(isTired)
+            {
+                StartCoroutine(TiredRoutine());
                 yield return null;
+                continue;
+            }
+            else
+            {
+                StopCoroutine(TiredRoutine());
+            }
+
 
             attackTimer = 0f;
 
@@ -54,6 +69,18 @@ public class BossOne : BaseBoss
             Debug.Log($"{bossName} is now tired: {IsTired}");
 
             phaseTimer = 0f;
+        }
+    }
+
+    IEnumerator TiredRoutine()
+    {
+        while(isTired)
+        {
+            if(sr != null)
+            {
+                sr.sprite = (sr.sprite == normal) ? tired : normal;
+            }
+            yield return new WaitForSeconds(0.3f);
         }
     }
 

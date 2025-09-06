@@ -101,4 +101,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDistance: 10
-  moveSpeed: 2
+  moveSpeed: 20
+  player: {fileID: 0}
