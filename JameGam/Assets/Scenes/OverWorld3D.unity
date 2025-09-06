@@ -152,11 +152,11 @@ Transform:
   m_GameObject: {fileID: 98388291}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.086, y: 0.261, z: 0}
-  m_LocalScale: {x: 0.099999994, y: 0.099999994, z: 10}
+  m_LocalPosition: {x: -8.6, y: 26.1, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 755933851}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &98388293
 CircleCollider2D:
@@ -590,11 +590,11 @@ Transform:
   m_GameObject: {fileID: 257276825}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.218, y: -0.274, z: 0}
-  m_LocalScale: {x: 0.099999994, y: 0.099999994, z: 10}
+  m_LocalPosition: {x: 21.8, y: -27.4, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 755933851}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &257276827
 AudioSource:
@@ -981,11 +981,11 @@ Transform:
   m_GameObject: {fileID: 564214725}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.355, y: 0.098, z: 0}
-  m_LocalScale: {x: 0.099999994, y: 0.099999994, z: 10}
+  m_LocalPosition: {x: 35.5, y: 9.8, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 755933851}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &564214728
 CircleCollider2D:
@@ -1401,10 +1401,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 98388292}
-  - {fileID: 564214726}
-  - {fileID: 257276826}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &755933852
@@ -1459,7 +1456,7 @@ Animator:
   m_GameObject: {fileID: 793735648}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bef1e01ac4aed9a428736350ae0ff2ad, type: 2}
+  m_Controller: {fileID: 9100000, guid: d9283b78943cc0b49bca95f67541c474, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1572,6 +1569,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b87fa80fffe5ac4dbfbc9e886a3faa7, type: 3}
+--- !u!1 &962414077 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5289899125374652547, guid: 4324f0ab46333e14386db94c95502227, type: 3}
+  m_PrefabInstance: {fileID: 8844852745284810941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &962414080
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962414077}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d9283b78943cc0b49bca95f67541c474, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1002058638
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2562,6 +2586,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2742406310860395101, guid: 4324f0ab46333e14386db94c95502227, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d9283b78943cc0b49bca95f67541c474, type: 2}
+    - target: {fileID: 3746308856768015920, guid: 4324f0ab46333e14386db94c95502227, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 793735656}
+    - target: {fileID: 3746308856768015920, guid: 4324f0ab46333e14386db94c95502227, type: 3}
+      propertyPath: spireIsak
+      value: 
+      objectReference: {fileID: 962414077}
+    - target: {fileID: 3746308856768015920, guid: 4324f0ab46333e14386db94c95502227, type: 3}
+      propertyPath: spriteIsak
+      value: 
+      objectReference: {fileID: 962414077}
     - target: {fileID: 3746308856768015920, guid: 4324f0ab46333e14386db94c95502227, type: 3}
       propertyPath: enterLevelText
       value: 
@@ -2610,17 +2650,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7935684131056255187, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-      propertyPath: orthographic size
-      value: 10
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2742406310860395101, guid: 4324f0ab46333e14386db94c95502227, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7134950893000350762, guid: 4324f0ab46333e14386db94c95502227, type: 3}
       insertIndex: -1
       addedObject: {fileID: 793735656}
+    - targetCorrespondingSourceObject: {fileID: 5289899125374652547, guid: 4324f0ab46333e14386db94c95502227, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 962414080}
   m_SourcePrefab: {fileID: 100100000, guid: 4324f0ab46333e14386db94c95502227, type: 3}
 --- !u!1001 &8917006866256959827
 PrefabInstance:
@@ -2692,3 +2732,6 @@ SceneRoots:
   - {fileID: 1033908484}
   - {fileID: 822396382}
   - {fileID: 1645159852}
+  - {fileID: 98388292}
+  - {fileID: 564214726}
+  - {fileID: 257276826}

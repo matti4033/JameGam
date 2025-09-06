@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.UI;
@@ -12,12 +13,26 @@ public class MapPlayerController : MonoBehaviour
     private bool Level3Entrence;
 
     [SerializeField] GameObject enterLevelText;
+    [SerializeField] GameObject spriteIsak;
+    [SerializeField] Sprite spriteTHIS;
+
+    [SerializeField] private Animator animator;
+    [SerializeField] private Animator animatorIsak;
 
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
 
 
     float moveX, moveY;
+
+    private void Start()
+    {
+        animatorIsak = spriteIsak.GetComponent<Animator>();
+    }
+    private void Update()
+    {
+        spriteTHIS = spriteIsak.GetComponent<SpriteRenderer>().sprite;
+    }
 
     private void FixedUpdate()
     {
@@ -32,6 +47,40 @@ public class MapPlayerController : MonoBehaviour
         moveX = movement.x;
 
         moveY = movement.y;
+
+        //PLAYER PREFAB (SHADOW)
+        if (movement.x != 0 || movement.y != 0)
+        {
+            animator.SetBool("IsMoving", true);
+
+            if (movement.x > 0)
+            {
+                animator.SetTrigger("MovingRight");
+            }
+            if (movement.x < 0)
+            {
+                animator.SetTrigger("MovingLeft");
+            }
+        }
+        else
+            animator.SetBool("IsMoving", false);
+
+        //SPRITE PLAYER MODEL
+        if (movement.x != 0 || movement.y != 0)
+        {
+            animatorIsak.SetBool("IsMoving", true);
+
+            if (movement.x > 0)
+            {
+                animatorIsak.SetTrigger("MovingRight");
+            }
+            if (movement.x < 0)
+            {
+                animatorIsak.SetTrigger("MovingLeft");
+            }
+        }
+        else
+            animatorIsak.SetBool("IsMoving", false);
     }
 
     public void OnInteract(InputValue value)
@@ -74,11 +123,6 @@ public class MapPlayerController : MonoBehaviour
         Level1Entrence = false;
         Level2Entrence = false;
     }
-
-
-    //ANIMATIONS
-
-    [SerializeField] private Animator animator;
 
 }
 
