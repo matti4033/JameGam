@@ -60,6 +60,7 @@ public class TokenGoal : MonoBehaviour
         // Destroy StringWaveDirector
         foreach (var s in FindObjectsByType<StringWaveDirector>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {
+            s.GetComponent<StringWaveDirectorMatti>().ClearAllWaves();
             if (s) Destroy(s.gameObject);
         }
 
@@ -67,6 +68,7 @@ public class TokenGoal : MonoBehaviour
         foreach (var m in FindObjectsByType<MixedMusicHazardsDirector>(FindObjectsInactive.Exclude,
                      FindObjectsSortMode.None))
         {
+            m.GetComponent<MixedPuzzlesMattiEdition>().ClearAllObj();
             if (m) Destroy(m.gameObject);
         }
     }

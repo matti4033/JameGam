@@ -17,6 +17,8 @@ public class StringWaveDirectorMatti : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject wavePrefab;
+    private List<GameObject> waves = new List<GameObject>();
+
 
     [Header("Pattern")]
     [Tooltip("Optional .txt with lines of '.' (safe) and 'x' (danger) with height = lanes")]
@@ -215,6 +217,7 @@ public class StringWaveDirectorMatti : MonoBehaviour
             if (lane == safeLane) continue;
             var pos = new Vector3(spawnX, LaneY(lane), 0f);
             var go = Instantiate(wavePrefab, pos, Quaternion.identity);
+            waves.Add(go);
             var seg = go.GetComponent<WaveSegment>();
             if (seg != null)
             {
@@ -230,5 +233,13 @@ public class StringWaveDirectorMatti : MonoBehaviour
         if (lanes <= 0) return 0f;
         float t = (lanes == 1) ? 0.5f : (lane + 0.5f) / lanes;
         return Mathf.Lerp(topY, bottomY, t);
+    }
+    public void ClearAllWaves()
+    {
+        foreach (var note in waves)
+        {
+            if (note != null) Destroy(note);
+        }
+        waves.Clear();
     }
 }

@@ -17,8 +17,6 @@ public class MixedPuzzlesMattiEdition : MonoBehaviour
 
     [Header("Prefabs")] public GameObject wavePrefab;
     public GameObject noteRainPrefab;
-    //public GameObject waveTelegraphPrefab;
-    //public GameObject noteTelegraphPrefab;
 
     [Header("Strings")]
     public GameObject stringPrefab;
@@ -57,6 +55,9 @@ public class MixedPuzzlesMattiEdition : MonoBehaviour
 
     [Header("Token Speed (multiplier)")] public float tokenFallSpeedMul = 1f;
     public float tokenSlideSpeedMul = 1f;
+
+    private List<GameObject> objects = new List<GameObject>();
+
 
     TokenGoal _goal;
 
@@ -234,6 +235,7 @@ public class MixedPuzzlesMattiEdition : MonoBehaviour
             if (lane == laneSafe) continue;
             var pos = new Vector3(spawnX_Waves, LaneY(lane), 0f);
             var go = Instantiate(wavePrefab, pos, Quaternion.identity);
+            objects.Add(go);
             var seg = go.GetComponent<WaveSegment>();
             if (seg)
             {
@@ -255,6 +257,7 @@ public class MixedPuzzlesMattiEdition : MonoBehaviour
             float jitter = Random.Range(-noteSpawnJitterX, noteSpawnJitterX);
             var p = new Vector3(ColumnX(col) + jitter, spawnY_Notes, 0f);
             var go = Instantiate(noteRainPrefab, p, Quaternion.identity);
+            objects.Add(go);
             var fn = go.GetComponent<FallingNote>();
             if (fn)
             {
@@ -276,5 +279,13 @@ public class MixedPuzzlesMattiEdition : MonoBehaviour
         if (columns <= 0) return 0f;
         float t = (col + 0.5f) / columns;
         return Mathf.Lerp(leftX_Notes, rightX_Notes, t);
+    }
+    public void ClearAllObj()
+    {
+        foreach (var note in objects)
+        {
+            if (note != null) Destroy(note);
+        }
+        objects.Clear();
     }
 }
