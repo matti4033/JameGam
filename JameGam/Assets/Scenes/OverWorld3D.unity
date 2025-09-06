@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 98388294}
   - component: {fileID: 98388293}
   m_Layer: 0
-  m_Name: Level One Area
+  m_Name: Level One
   m_TagString: LevelOne
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 564214729}
   - component: {fileID: 564214728}
   m_Layer: 0
-  m_Name: Level Birkan Area
+  m_Name: Level Two
   m_TagString: LevelTwo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -799,8 +799,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba6c304cfa49f3458bac6728f0a91af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelMatti: {fileID: 98388291}
-  LevelBirkan: {fileID: 564214725}
+  Level1: {fileID: 98388291}
+  Level2: {fileID: 564214725}
 --- !u!1 &1060619914 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1431834334350976551, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
