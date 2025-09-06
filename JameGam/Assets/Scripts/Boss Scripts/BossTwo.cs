@@ -22,6 +22,8 @@ public class BossTwo : BaseBoss
     protected override void Start()
     {
         base.Start();
+        Debug.Log("BossTwo.Start called on object: " + gameObject.name);
+
         player = GameObject.FindGameObjectWithTag("Player").transform;
         StartBossPhases();
     }
@@ -65,6 +67,7 @@ public class BossTwo : BaseBoss
     private void ShootString()
     {
         if (shootPoints.Length == 0) return;
+        Debug.Log("Shooting from: " + shootIndex);
 
         Transform firePoint = shootPoints[shootIndex];
         GameObject s = Instantiate(stringPrefab, firePoint.position, Quaternion.identity);

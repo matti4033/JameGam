@@ -9,6 +9,7 @@ public class BossManager : MonoBehaviour
 
     public float bossSpawnTimer;
     public float timer;
+    private bool doOnce = false;
 
     public void StartBossFight()
     {
@@ -18,11 +19,13 @@ public class BossManager : MonoBehaviour
     IEnumerator SpawnBoss()
     {
         yield return new WaitForSeconds(bossSpawnTimer);
-
-        Vector3 startPos = spawnPos.position;
-        activeBoss = Instantiate(bossPrefab, startPos, Quaternion.identity);
-        activeBoss.OnBossDefeated += HandleBossDefeated;
-
+        if (!doOnce)
+        {
+            Vector3 startPos = spawnPos.position;
+            activeBoss = Instantiate(bossPrefab, startPos, Quaternion.identity);
+            activeBoss.OnBossDefeated += HandleBossDefeated;
+            doOnce = true;
+        }
         Debug.Log("Boss fight started!");
         timer = 0;
     }
