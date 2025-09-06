@@ -1,20 +1,29 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class BossManager : MonoBehaviour
 {
     public BaseBoss bossPrefab;
-    private BaseBoss activeBoss;
+    public BaseBoss activeBoss;
     public Transform spawnPos;
 
     public float bossSpawnTimer;
     public float timer;
     private bool doOnce = false;
+    public TMP_Text cleanseprompt;
 
     public void StartBossFight()
     {
         StartCoroutine(SpawnBoss());
 
+    }
+
+    public void Update()
+    {
+        if(activeBoss.IsTired) cleanseprompt.gameObject.SetActive(true);
+        
+        if(!activeBoss.IsTired) cleanseprompt.gameObject.SetActive(false);
     }
     IEnumerator SpawnBoss()
     {

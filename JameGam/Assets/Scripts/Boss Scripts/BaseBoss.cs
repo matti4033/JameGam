@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 
+
 public abstract class BaseBoss : MonoBehaviour
 {
     [Header("Settings")]
@@ -17,6 +18,8 @@ public abstract class BaseBoss : MonoBehaviour
     protected bool isTired = false;
     protected int phaseCount = 0;
     protected int attackCycleCount = 0;
+
+
 
     public bool IsTired => isTired;
     public bool IsDead => isDead;

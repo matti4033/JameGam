@@ -25,6 +25,8 @@ public class GameplayPlayerController : MonoBehaviour
     [SerializeField] private float dropDownDuration = 0.3f;
     private Collider2D playerCollider;
 
+    public GameObject bossManager;
+
     private bool isGrounded;
     private float moveX, moveY;
     private GameObject currentBoss;
@@ -43,6 +45,8 @@ public class GameplayPlayerController : MonoBehaviour
         {
             rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
+        currentBoss = bossManager.GetComponent<BossManager>().activeBoss.gameObject;
+        if (currentBoss == null) return; 
         
     }
 
@@ -93,12 +97,31 @@ public class GameplayPlayerController : MonoBehaviour
     {
         GameObject obj = Instantiate(throwPrefab, throwPoint.position, Quaternion.identity);
         Rigidbody2D rb2d = obj.GetComponent<Rigidbody2D>();
-        if (rb2d != null)
+        if (rb2d != null && currentBoss != null)
         {
-            Vector2 dir = (Vector2.right * transform.localScale.x).normalized;
-            rb2d.AddForce(dir * throwForce, ForceMode2D.Impulse);
+            Vector2 start = throwPoint.position;
+            Vector2 target = currentBoss.transform.position;
+
+            float distance = Vector2.Distance(start, target);
+
+            float timeToTarget = Mathf.Clamp(distance / 10f, 0.5f, 2f);
+
+            Vector2 velocity = CalculateArcVelocity(start, target, timeToTarget);
+            rb2d.linearVelocity = velocity;
         }
     }
+
+    private Vector2 CalculateArcVelocity(Vector2 start, Vector2 target, float timeToTarget)
+    {
+        Vector2 distance = target - start;
+
+        float vx = distance.x / timeToTarget;
+
+        float vy = (distance.y - 0.5f * Physics2D.gravity.y * timeToTarget * timeToTarget) / timeToTarget;
+
+        return new Vector2(vx, vy);
+    }
+
 
     private void DropThroughPlatform()
     {
