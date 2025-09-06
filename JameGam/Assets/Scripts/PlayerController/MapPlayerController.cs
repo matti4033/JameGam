@@ -9,6 +9,7 @@ public class MapPlayerController : MonoBehaviour
 {
     private bool Level1Entrence;
     private bool Level2Entrence;
+    private bool Level3Entrence;
 
     [SerializeField] GameObject enterLevelText;
 
@@ -44,6 +45,10 @@ public class MapPlayerController : MonoBehaviour
         {
             SceneManager.LoadScene("Level2");
         }
+        if (Level3Entrence && GameManager.Instance.bossesdead == 2)
+        {
+            SceneManager.LoadScene("Level3");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -69,5 +74,11 @@ public class MapPlayerController : MonoBehaviour
         Level1Entrence = false;
         Level2Entrence = false;
     }
+
+
+    //ANIMATIONS
+
+    [SerializeField] private Animator animator;
+
 }
 
