@@ -9,6 +9,7 @@ TagManager:
   - String
   - Floor
   - LevelTwo
+  - LevelThree
   layers:
   - Default
   - TransparentFX
