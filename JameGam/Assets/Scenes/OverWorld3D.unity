@@ -1441,33 +1441,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 361138468555071276, guid: 8b87fa80fffe5ac4dbfbc9e886a3faa7, type: 3}
   m_PrefabInstance: {fileID: 1074772354}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &793735648 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7134950893000350762, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-  m_PrefabInstance: {fileID: 8844852745284810941}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &793735656
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 793735648}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d9283b78943cc0b49bca95f67541c474, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &822396381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,33 +1542,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b87fa80fffe5ac4dbfbc9e886a3faa7, type: 3}
---- !u!1 &962414077 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5289899125374652547, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-  m_PrefabInstance: {fileID: 8844852745284810941}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &962414080
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 962414077}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d9283b78943cc0b49bca95f67541c474, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1002058638
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2586,22 +2532,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2742406310860395101, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: d9283b78943cc0b49bca95f67541c474, type: 2}
-    - target: {fileID: 3746308856768015920, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 793735656}
-    - target: {fileID: 3746308856768015920, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-      propertyPath: spireIsak
-      value: 
-      objectReference: {fileID: 962414077}
-    - target: {fileID: 3746308856768015920, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-      propertyPath: spriteIsak
-      value: 
-      objectReference: {fileID: 962414077}
     - target: {fileID: 3746308856768015920, guid: 4324f0ab46333e14386db94c95502227, type: 3}
       propertyPath: enterLevelText
       value: 
@@ -2650,17 +2580,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2742406310860395101, guid: 4324f0ab46333e14386db94c95502227, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7134950893000350762, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 793735656}
-    - targetCorrespondingSourceObject: {fileID: 5289899125374652547, guid: 4324f0ab46333e14386db94c95502227, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 962414080}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4324f0ab46333e14386db94c95502227, type: 3}
 --- !u!1001 &8917006866256959827
 PrefabInstance:
