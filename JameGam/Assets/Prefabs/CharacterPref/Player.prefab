@@ -228,6 +228,9 @@ MonoBehaviour:
   throwPoint: {fileID: 7774736796865839985}
   throwForce: 10
   dropDownDuration: 0.6
+  bossManager: {fileID: 0}
+  spriteTHIS: {fileID: 0}
+  animator: {fileID: -2285492636915973352}
 --- !u!95 &-2285492636915973352
 Animator:
   serializedVersion: 7

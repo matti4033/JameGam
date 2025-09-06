@@ -31,6 +31,11 @@ public class GameplayPlayerController : MonoBehaviour
     private float moveX, moveY;
     private GameObject currentBoss;
 
+    //MOVEMENT
+    [SerializeField] Sprite spriteTHIS;
+
+    [SerializeField] private Animator animator;
+
     private void Awake()
     {
         playerCollider = GetComponent<Collider2D>();
@@ -46,8 +51,8 @@ public class GameplayPlayerController : MonoBehaviour
             rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
         currentBoss = bossManager.GetComponent<BossManager>().activeBoss.gameObject;
-        if (currentBoss == null) return; 
-        
+        if (currentBoss == null) return;
+
     }
 
     private void FixedUpdate()
@@ -62,6 +67,24 @@ public class GameplayPlayerController : MonoBehaviour
 
         moveX = movement.x;
         moveY = movement.y;
+
+        //PLAYER PREFAB (SHADOW)
+        if (movement.x != 0 || movement.y != 0)
+        {
+            animator.SetBool("IsMoving", true);
+
+            if (movement.x > 0)
+            {
+                animator.SetTrigger("MovingRight");
+            }
+            if (movement.x < 0)
+            {
+                animator.SetTrigger("MovingLeft");
+            }
+        }
+        else
+            animator.SetBool("IsMoving", false);
+
     }
 
     public void OnJump(InputValue value)
@@ -88,7 +111,7 @@ public class GameplayPlayerController : MonoBehaviour
         if (value.isPressed)
         {
             BaseBoss boss = FindObjectOfType<BaseBoss>();
-            if(boss != null && boss.IsTired)
+            if (boss != null && boss.IsTired)
                 ThrowThing();
         }
     }
