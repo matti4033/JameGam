@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +16,10 @@ public class GameManager : MonoBehaviour
     public bool bossThreeDead = false;
 
     public bool GameDoneZooooooo = false;
+    public bool dead = false;
+
+    public TMP_Text playerHeartText;
+    public int playerHealth = 3;
 
     private void Awake()
     {
@@ -25,10 +31,15 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        playerHealth = 3;
     }
 
     private void Update()
     {
+
+        playerHeartText.text = playerHealth.ToString();
+
         if(bossesdead >= 3)
         {
             Time.timeScale = 0f;

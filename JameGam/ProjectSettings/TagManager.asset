@@ -10,6 +10,7 @@ TagManager:
   - Floor
   - LevelTwo
   - LevelThree
+  - Heart
   layers:
   - Default
   - TransparentFX

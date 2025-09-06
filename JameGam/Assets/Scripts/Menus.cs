@@ -11,7 +11,7 @@ public class Menus : MonoBehaviour
 
     private void Update()
     {
-        if (!paused)
+        if (!paused && !GameManager.Instance.dead)
         {
             paused = false;
             Time.timeScale = 1f;

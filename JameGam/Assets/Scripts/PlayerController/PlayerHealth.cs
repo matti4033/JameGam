@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Events")] public UnityEvent<int> onHealthChanged; // passes current HP
     public UnityEvent onDeath;
     
-    public bool IsDead => CurrentHP <= 0;
+    public bool IsDead => GameManager.Instance.playerHealth <= 0;
     bool _deathFired = false;
 
     [Header("Regen")] [Tooltip("Enable timed regeneration.")]
@@ -30,22 +30,22 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("If true, auto-heal stops at startingHP. If false, it can exceed startingHP (and will be clamped by maxHP when capToMax is true).")]
     public bool regenOnlyUpToStartingHP = true;
 
-    public int CurrentHP { get; private set; }
-
     float lastDamageTime;
     Coroutine regenRoutine;
 
+    private Menus menus;
+
     void Awake()
     {
-        CurrentHP = Mathf.Max(1, startingHP);
+        GameManager.Instance.playerHealth = Mathf.Max(1, startingHP);
         lastDamageTime = Time.time;
-        onHealthChanged?.Invoke(CurrentHP);
+        onHealthChanged?.Invoke(GameManager.Instance.playerHealth);
     }
 
-    void OnEnable()
-    {
-        StartRegenLoopIfNeeded();
-    }
+    //void OnEnable()
+    //{
+    //    StartRegenLoopIfNeeded();
+    //}
 
     void OnDisable()
     {
@@ -58,7 +58,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        if (CurrentHP <= 0)
+        if (GameManager.Instance.playerHealth <= 0)
         {
             Die();
         }
@@ -68,18 +68,18 @@ public class PlayerHealth : MonoBehaviour
     {
         if (amount <= 0) return;
 
-        CurrentHP = Mathf.Max(0, CurrentHP - amount);
+        GameManager.Instance.playerHealth = Mathf.Max(0, GameManager.Instance.playerHealth - amount);
         lastDamageTime = Time.time; // reset regen cooldown
-        onHealthChanged?.Invoke(CurrentHP);
+        onHealthChanged?.Invoke(GameManager.Instance.playerHealth);
     }
 
     public void Heal(int amount)
     {
         if (amount <= 0) return;
-        int target = CurrentHP + amount;
+        int target = GameManager.Instance.playerHealth + amount;
         if (capToMax) target = Mathf.Min(target, maxHP);
-        CurrentHP = target;
-        onHealthChanged?.Invoke(CurrentHP);
+        GameManager.Instance.playerHealth = target;
+        onHealthChanged?.Invoke(GameManager.Instance.playerHealth);
     }
 
     // Call this when the boss spawns, adds +2 to current health
@@ -88,45 +88,45 @@ public class PlayerHealth : MonoBehaviour
         Heal(bonus);
     }
 
-    void StartRegenLoopIfNeeded()
-    {
-        if (!regenEnabled) return;
-        if (regenRoutine == null) regenRoutine = StartCoroutine(RegenLoop());
-    }
+    //void StartRegenLoopIfNeeded()
+    //{
+    //    if (!regenEnabled) return;
+    //    if (regenRoutine == null) regenRoutine = StartCoroutine(RegenLoop());
+    //}
 
-    IEnumerator RegenLoop()
-    {
-        var wait = new WaitForSeconds(Mathf.Max(0.01f, regenTickInterval));
+    //IEnumerator RegenLoop()
+    //{
+    //    var wait = new WaitForSeconds(Mathf.Max(0.01f, regenTickInterval));
 
-        while (true)
-        {
-            yield return wait;
+    //    while (true)
+    //    {
+    //        yield return wait;
 
-            if (!regenEnabled)
-                continue;
+    //        if (!regenEnabled)
+    //            continue;
 
-            // cooldown since last damage
-            if (Time.time - lastDamageTime < regenDelayAfterDamage)
-                continue;
+    //        // cooldown since last damage
+    //        if (Time.time - lastDamageTime < regenDelayAfterDamage)
+    //            continue;
 
-            // determine ceiling for auto-heal
-            int ceiling = int.MaxValue;
-            if (regenOnlyUpToStartingHP)
-                ceiling = startingHP;
-            else if (capToMax)
-                ceiling = maxHP;
+    //        // determine ceiling for auto-heal
+    //        int ceiling = int.MaxValue;
+    //        if (regenOnlyUpToStartingHP)
+    //            ceiling = startingHP;
+    //        else if (capToMax)
+    //            ceiling = maxHP;
 
-            if (CurrentHP >= ceiling)
-                continue;
+    //        if (CurrentHP >= ceiling)
+    //            continue;
 
-            int amount = regenAmount;
-            if (ceiling != int.MaxValue)
-                amount = Mathf.Min(amount, ceiling - CurrentHP);
+    //        int amount = regenAmount;
+    //        if (ceiling != int.MaxValue)
+    //            amount = Mathf.Min(amount, ceiling - CurrentHP);
 
-            if (amount > 0)
-                Heal(amount);
-        }
-    }
+    //        if (amount > 0)
+    //            Heal(amount);
+    //    }
+    //}
 
     public void Die()
     {
@@ -135,6 +135,7 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("[PlayerHealth] Player died.");
         //onDeath?.Invoke(); // hook respawn in Inspector (or in code)
 
+        GameManager.Instance.dead = true;
         GameManager.Instance.gameOverMenu.SetActive(true);
         Time.timeScale = 0;
     }
