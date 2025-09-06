@@ -152,7 +152,7 @@ Transform:
   m_GameObject: {fileID: 98388291}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.6, y: 26.1, z: 0}
+  m_LocalPosition: {x: 1.41, y: 8.01, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2235,11 +2235,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3178603333295327707, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
+      propertyPath: gameOverMenu
+      value: 
+      objectReference: {fileID: 2075919767}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
+--- !u!1 &2075919767 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 65053345529915086, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
+  m_PrefabInstance: {fileID: 2075919766}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2419918885558034601
 PrefabInstance:
   m_ObjectHideFlags: 0
