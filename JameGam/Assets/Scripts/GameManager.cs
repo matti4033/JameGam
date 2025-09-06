@@ -4,7 +4,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public GameObject endMenu;
+    public GameObject gameFinishedMenu;
+    public GameObject gameOverMenu;
 
     public int bossesdead = 0;
 
@@ -31,11 +32,11 @@ public class GameManager : MonoBehaviour
         if(bossesdead >= 3)
         {
             Time.timeScale = 0f;
-            endMenu.SetActive(true);
+            gameFinishedMenu.SetActive(true);
         }
         else
         {
-            endMenu.SetActive(false);
+            gameFinishedMenu.SetActive(false);
         }
     }
 

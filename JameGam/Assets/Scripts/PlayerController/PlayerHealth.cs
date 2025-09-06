@@ -56,6 +56,14 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+
     public void Damage(int amount)
     {
         if (amount <= 0) return;
@@ -63,11 +71,6 @@ public class PlayerHealth : MonoBehaviour
         CurrentHP = Mathf.Max(0, CurrentHP - amount);
         lastDamageTime = Time.time; // reset regen cooldown
         onHealthChanged?.Invoke(CurrentHP);
-
-        if (CurrentHP <= 0)
-            Die();
-        else 
-            StartRegenLoopIfNeeded();
     }
 
     public void Heal(int amount)
@@ -127,10 +130,13 @@ public class PlayerHealth : MonoBehaviour
 
     public void Die()
     {
-        if (_deathFired) return;
-        _deathFired = true;
+        //if (_deathFired) return;
+        //_deathFired = true;
         Debug.Log("[PlayerHealth] Player died.");
-        onDeath?.Invoke(); // hook respawn in Inspector (or in code)
+        //onDeath?.Invoke(); // hook respawn in Inspector (or in code)
+
+        GameManager.Instance.gameOverMenu.SetActive(true);
+        Time.timeScale = 0;
     }
 
     // Inspector fix
