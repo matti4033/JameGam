@@ -15,6 +15,8 @@ public class StringProjectile : MonoBehaviour
     private Vector2 tipPos;
     private bool stuck = false;
 
+    private List<GameObject> activeVibrations = new List<GameObject>();
+
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D boxCollider;
     private PlatformEffector2D effector;
@@ -109,8 +111,16 @@ public class StringProjectile : MonoBehaviour
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        foreach (var v in activeVibrations)
+        {
+            if (v != null) Destroy(v);
+        }
+        activeVibrations.Clear();
+
         Destroy(gameObject);
     }
+
 
     public void PlayString()
     {
@@ -122,13 +132,13 @@ public class StringProjectile : MonoBehaviour
     private IEnumerator VibrationRoutine()
     {
         GameObject v = Instantiate(vibrationPrefab, boss.position, Quaternion.identity);
-
+        activeVibrations.Add(v);
         float t = 0f;
         while (t < 1f)
         {
             if (this == null)
             {
-                if (v != null) Destroy(v);
+                if (v != null) Destroy(v); activeVibrations.Remove(v);
                 yield break;
             }
 
@@ -140,5 +150,13 @@ public class StringProjectile : MonoBehaviour
         }
 
         if (v != null) Destroy(v);
+    }
+    void OnDestroy()
+    {
+        foreach (var v in activeVibrations)
+        {
+            if (v != null) Destroy(v);
+        }
+        activeVibrations.Clear();
     }
 }

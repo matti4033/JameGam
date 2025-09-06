@@ -39,23 +39,32 @@ public class BossManager : MonoBehaviour
             switch (boss.bossName)
             {
                 case "BossOne":
-                    GameManager.Instance.bossOneDead = true;
-                    GameManager.Instance.bossesdead++;
+                    if (!GameManager.Instance.bossOneDead)
+                    {
+                        GameManager.Instance.bossOneDead = true;
+                        GameManager.Instance.bossesdead++;
+                    }
                     break;
                 case "BossTwo":
-                    GameManager.Instance.bossTwoDead = true;
-                    GameManager.Instance.bossesdead++;
+                    if (!GameManager.Instance.bossTwoDead)
+                    {
+                        GameManager.Instance.bossTwoDead = true;
+                        GameManager.Instance.bossesdead++;
+                    }
                     break;
                 case "BossThree":
-                    GameManager.Instance.bossThreeDead = true;
-                    GameManager.Instance.bossesdead++;
+                    if (!GameManager.Instance.bossThreeDead)
+                    {
+                        GameManager.Instance.bossThreeDead = true;
+                        GameManager.Instance.bossesdead++;
+                    }
                     break;
             }
         }
-        
+
         var player = GameObject.FindGameObjectWithTag("Player");
         player?.GetComponent<PlayerHealth>()?.ApplyBossBonus(2);
-        
+
         StartCoroutine(EndFight());
     }
 

@@ -14,6 +14,8 @@ public class NoteRainController : MonoBehaviour
     [Header("Prefabs")] public GameObject noteRainPrefab;
     public GameObject telegramPrefab;
 
+    private List<GameObject> activeNotes = new List<GameObject>();
+
     [Header("Pattern")] [Tooltip("Optional .txt with lines of '.' (safe) and 'x' (danger) with width = columns")]
     public TextAsset patternText;
 
@@ -103,6 +105,7 @@ public class NoteRainController : MonoBehaviour
 
                     SpawnStep(nextSafe);
 
+
                     // Maybe spawn a token (in the safe column)
                     if (tokenPrefab && TokensNeeded() && (_stepIndex - _lastTokenStep) >= minStepsBetweenToken &&
                         UnityEngine.Random.value < tokenSpawnChance)
@@ -115,6 +118,11 @@ public class NoteRainController : MonoBehaviour
                         ct.killY = killY;
 
                         _lastTokenStep = _stepIndex;
+                    }
+                    if (_goal != null && !_goal.NeedsTokens())
+                    {
+                        ClearAllNotes();
+                        yield break;
                     }
 
                     _stepIndex++;
@@ -144,6 +152,7 @@ public class NoteRainController : MonoBehaviour
 
                 SpawnStep(nextSafe);
 
+
                 // token (optional)
                 if (tokenPrefab && TokensNeeded() && (_stepIndex - _lastTokenStep) >= minStepsBetweenToken &&
                     UnityEngine.Random.value < tokenSpawnChance)
@@ -156,6 +165,11 @@ public class NoteRainController : MonoBehaviour
                     ct.killY = killY;
 
                     _lastTokenStep = _stepIndex;
+                }
+                if (_goal != null && !_goal.NeedsTokens())
+                {
+                    ClearAllNotes();
+                    yield break;
                 }
 
                 _stepIndex++;
@@ -241,6 +255,7 @@ public class NoteRainController : MonoBehaviour
             float jitter = UnityEngine.Random.Range(-spawnJitter, spawnJitter);
             var p = new Vector3(ColumnX(c) + jitter, spawnY, 0f);
             var go = Instantiate(noteRainPrefab, p, Quaternion.identity);
+            activeNotes.Add(go);
 
             var fn = go.GetComponent<FallingNote>();
             if (fn)
@@ -268,5 +283,13 @@ public class NoteRainController : MonoBehaviour
 
         Gizmos.color = new Color(1, 1, 1, 0.15f);
         Gizmos.DrawLine(new Vector3(leftX, spawnY, 0), new Vector3(rightX, spawnY, 0));
+    }
+    public void ClearAllNotes()
+    {
+        foreach (var note in activeNotes)
+        {
+            if (note != null) Destroy(note);
+        }
+        activeNotes.Clear();
     }
 }

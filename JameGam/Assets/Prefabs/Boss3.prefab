@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53515bdcf40af2e4c8df3ee7df231212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossName: 
+  bossName: BossThree
   moveSpeed: 0
   rb: {fileID: 3261277454217283260}
   player: {fileID: 0}

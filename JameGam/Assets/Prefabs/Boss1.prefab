@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851f0b2bec095e24784d145b63074815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossName: GuitarOne
+  bossName: BossOne
   moveSpeed: 3
   rb: {fileID: 8821697231314401651}
   player: {fileID: 0}

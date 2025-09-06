@@ -50,7 +50,11 @@ public class TokenGoal : MonoBehaviour
         // Destroy NoteRainController
         foreach (var n in FindObjectsByType<NoteRainController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
         {
-            if (n) Destroy(n.gameObject);
+            if (n)
+            {
+                n.GetComponent<NoteRainController>().ClearAllNotes();
+                Destroy(n.gameObject);
+            }
         }
 
         // Destroy StringWaveDirector
