@@ -127,58 +127,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: bpm
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: topY
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: killX
-      value: -11
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: spawnX
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: bottomY
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: waveSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: waveLength
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: wavePrefab
-      value: 
-      objectReference: {fileID: 683304328114903582, guid: 42281f253dda19347acc00d355a2aabf, type: 3}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: tokenPrefab
-      value: 
-      objectReference: {fileID: 1214659129735923178, guid: 4eb520f461eb78d4e88f26d37e604b75, type: 3}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: stepsPerBeat
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: stringPrefab
-      value: 
-      objectReference: {fileID: 5308668476520411288, guid: 254380557aa893546908246b2eda5282, type: 3}
-    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: waveLifePadding
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1251808771433537105, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.418415
@@ -219,41 +167,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4302218407818701019, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: topY
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 4302218407818701019, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: killX
-      value: -11.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 4302218407818701019, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: lanes
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4302218407818701019, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: spawnX
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 4302218407818701019, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: bottomY
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4302218407818701019, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4302218407818701019, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: telegraphPrefab
-      value: 
-      objectReference: {fileID: 8004957983763761591, guid: a76d6cc50c3dd014da0c070553a37ddf, type: 3}
     - target: {fileID: 4422347871005633262, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
       propertyPath: m_Name
       value: StringWaveDirector
-      objectReference: {fileID: 0}
-    - target: {fileID: 4422347871005633262, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

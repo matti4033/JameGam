@@ -74,7 +74,6 @@ public class StringWaveDirectorMatti : MonoBehaviour
     {
         if (!stringPrefab || lanes <= 0) return;
 
-        // Figure out the leftmost and rightmost X positions
         float leftX = Mathf.Min(spawnX, killX);
         float rightX = Mathf.Max(spawnX, killX);
         float targetWidth = rightX - leftX;
@@ -83,14 +82,11 @@ public class StringWaveDirectorMatti : MonoBehaviour
         {
             float y = LaneY(lane);
 
-            // Spawn the prefab at the left edge
             GameObject laneObj = Instantiate(stringPrefab, new Vector3(leftX, y, 0f), Quaternion.identity);
 
-            // Get the SpriteRenderer to measure its current width
             SpriteRenderer sr = laneObj.GetComponent<SpriteRenderer>();
             if (sr != null)
             {
-                // Current sprite width in world units (before scaling)
                 float spriteWidth = sr.bounds.size.x / laneObj.transform.localScale.x;
 
                 if (spriteWidth > 0f)
@@ -101,8 +97,13 @@ public class StringWaveDirectorMatti : MonoBehaviour
                     laneObj.transform.localScale = scale;
                 }
             }
+            BoxCollider2D col = laneObj.GetComponent<BoxCollider2D>();
+            if (col != null)
+            {
+                col.size = new Vector2(targetWidth, col.size.y);
+                col.offset = new Vector2(targetWidth / 2f, col.offset.y);
+            }
 
-            // Parent it under this object (optional)
             laneObj.transform.SetParent(transform, true);
 
             laneStrings.Add(laneObj);
