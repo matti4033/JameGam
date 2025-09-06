@@ -45,6 +45,9 @@ Material:
     - _Boss: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Scale: 8.31
+    - _Speed: 1
+    - _uv: -0.01
     m_Colors:
     - _CleansedColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 0, b: 0, a: 1}

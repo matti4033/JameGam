@@ -92,7 +92,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692982571432301854}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &2413145649013521738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 3746308856768015920}
   - component: {fileID: 1745964296721613607}
   - component: {fileID: 6897789333659518003}
+  - component: {fileID: 8660992980337094377}
   m_Layer: 0
   m_Name: Player3D
   m_TagString: Player
@@ -305,7 +306,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1062281984115707289, guid: 4d1bf41d702269849a25425707ad960d, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.6039216}
   m_FlipX: 0
@@ -343,7 +344,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &3746308856768015920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,3 +436,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.28389925, y: 0.5590117}
   m_EdgeRadius: 0
+--- !u!81 &8660992980337094377
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134950893000350762}
+  m_Enabled: 1
