@@ -15,6 +15,11 @@ public class BossTwo : BaseBoss
     public float phaseDuration = 15f;
     public float stringExtendDelay = 0.5f;
 
+    [SerializeField] private Sprite normal;
+    [SerializeField] private Sprite tired;
+
+    private SpriteRenderer sr;
+
     private List<StringProjectile> activeStrings = new List<StringProjectile>();
     private Coroutine phaseRoutine;
     private int shootIndex = 0;
@@ -25,6 +30,8 @@ public class BossTwo : BaseBoss
         Debug.Log("BossTwo.Start called on object: " + gameObject.name);
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        sr = GetComponent<SpriteRenderer>();
+
         StartBossPhases();
     }
 
@@ -36,8 +43,19 @@ public class BossTwo : BaseBoss
 
     private IEnumerator PhaseLoop()
     {
-        while (!IsDead && !IsTired)
+        while (!IsDead)
         {
+            if (isTired)
+            {
+                StartCoroutine(TiredRoutine());
+                yield return null;
+                continue;
+            }
+            else
+            {
+                sr.sprite = normal;
+                StopCoroutine(TiredRoutine());
+            }
             int stringCount = 0;
             while (stringCount < maxStrings && !IsDead)
             {
@@ -61,6 +79,18 @@ public class BossTwo : BaseBoss
             shootIndex = 0;
 
             FinishPhase();
+        }
+    }
+
+    IEnumerator TiredRoutine()
+    {
+        while (isTired)
+        {
+            if (sr != null)
+            {
+                sr.sprite = (sr.sprite == normal) ? tired : normal;
+            }
+            yield return new WaitForSeconds(0.3f);
         }
     }
 

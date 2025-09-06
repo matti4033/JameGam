@@ -37,7 +37,7 @@ public class BossOne : BaseBoss
 
         while (!IsDead)
         {
-            if(isTired)
+            if (isTired)
             {
                 StartCoroutine(TiredRoutine());
                 yield return null;
@@ -45,10 +45,9 @@ public class BossOne : BaseBoss
             }
             else
             {
+                sr.sprite = normal;
                 StopCoroutine(TiredRoutine());
             }
-
-
             attackTimer = 0f;
 
             while (phaseTimer < attackPhaseDuration && !IsTired && !IsDead)

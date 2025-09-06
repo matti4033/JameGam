@@ -219,6 +219,8 @@ MonoBehaviour:
   - {fileID: 5766082614384469166, guid: dfd38365fbad80d4194ff9f104518b3f, type: 3}
   projectileShootPoint: {fileID: 97812528159195940}
   projectileattackCD: 0.5
+  normal: {fileID: 2880596470767416195, guid: f46387a7885e2d54e89f408af320e0ae, type: 3}
+  tired: {fileID: -7050009237123210075, guid: 1190f20128181f341837a3babdb3d2f1, type: 3}
   stringPrefab: {fileID: 8004957983763761591, guid: a76d6cc50c3dd014da0c070553a37ddf, type: 3}
   stringShootPoints:
   - {fileID: 4303302912279912246}

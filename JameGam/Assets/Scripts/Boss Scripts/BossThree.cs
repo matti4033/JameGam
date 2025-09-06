@@ -11,6 +11,11 @@ public class BossThree : BaseBoss
     public float projectileattackCD = 0.5f;
     private float projectileAttackTimer = 0f;
 
+    [SerializeField] private Sprite normal;
+    [SerializeField] private Sprite tired;
+
+    private SpriteRenderer sr;
+
     [Header("BossTwo Style")]
     public GameObject stringPrefab;
     public Transform[] stringShootPoints;
@@ -30,6 +35,7 @@ public class BossThree : BaseBoss
         base.Start();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        sr = GetComponent<SpriteRenderer>();
 
         StartBossPhases();
     }
@@ -45,8 +51,17 @@ public class BossThree : BaseBoss
     {
         while (!IsDead)
         {
-            while (IsTired)
+            if (isTired)
+            {
+                StartCoroutine(TiredRoutine());
                 yield return null;
+                continue;
+            }
+            else
+            {
+                sr.sprite = normal;
+                StopCoroutine(TiredRoutine());
+            }
 
             int stringCount = 0;
             while (stringCount < maxStrings && !IsDead)
@@ -71,6 +86,17 @@ public class BossThree : BaseBoss
             stringShootIndex = 0;
 
             FinishPhase();
+        }
+    }
+    IEnumerator TiredRoutine()
+    {
+        while (isTired)
+        {
+            if (sr != null)
+            {
+                sr.sprite = (sr.sprite == normal) ? tired : normal;
+            }
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
