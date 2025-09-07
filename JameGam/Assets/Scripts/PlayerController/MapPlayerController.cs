@@ -105,26 +105,33 @@ public class MapPlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //If correct boss is killed for previous lvl you're allowed to enter
         if (collision.tag == "LevelOne" && GameManager.Instance.bossesdead == 0)
         {
             Level1Entrence = true;
             enterLevelText.SetActive(true);
         }
+        //If correct boss is killed for previous lvl you're allowed to enter
         if (collision.tag == "LevelTwo" && GameManager.Instance.bossesdead == 1)
         {
             Level2Entrence = true;
             enterLevelText.SetActive(true);
         }
-        else if (GameManager.Instance.bossesdead < 1)
+        //If not prompt to go to another level
+        else if (collision.tag == "LevelTwo" && GameManager.Instance.bossesdead < 1)
             goLevel1.SetActive(true);
 
+        //If correct boss is killed for previous lvl you're allowed to enter
         if (collision.tag == "LevelThree" && GameManager.Instance.bossesdead == 2)
         {
             Level2Entrence = true;
             enterLevelText.SetActive(true);
         }
-        else if (GameManager.Instance.bossesdead < 2)
+        //If not prompt to go to another level
+        else if (collision.tag == "LevelThree" && GameManager.Instance.bossesdead < 2)
             goLevel2.SetActive(true);
+        else if (collision.tag == "LevelThree" && GameManager.Instance.bossesdead < 1)
+            goLevel1.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)

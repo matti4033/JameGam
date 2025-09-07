@@ -11,12 +11,12 @@ public class MusicChanger : MonoBehaviour
     public GameObject music;
 
 
-    public float duration = 1f;
+    public float duration = 3f;
     public float counter;
 
     void Update()
     {
-        //OverWorld();
+        OverWorld();
 
         GamePlay();
     }
@@ -35,7 +35,7 @@ public class MusicChanger : MonoBehaviour
                 LevelOne.GetComponent<AudioSource>().pitch = Mathf.Lerp(1.1f, 0.9f, t);
             }
             //Overworld LvlTwo corrupted
-            if (GameManager.Instance.bossesdead == 0 && LevelTwo)
+            if (GameManager.Instance.bossesdead <= 1 && LevelTwo)
             {
                 counter += Time.deltaTime;
 
@@ -44,7 +44,7 @@ public class MusicChanger : MonoBehaviour
                 LevelTwo.GetComponent<AudioSource>().pitch = Mathf.Lerp(1.1f, 0.9f, t);
             }
             //Overworld LvlThree corrupted
-            if (GameManager.Instance.bossesdead == 0 && LevelTree)
+            if (GameManager.Instance.bossesdead <= 2 && LevelTree)
             {
                 counter += Time.deltaTime;
 
@@ -60,13 +60,10 @@ public class MusicChanger : MonoBehaviour
     public void GamePlay()
     {
         //-------------------------------------------------------------LEVEL 1
-        Debug.Log("1");
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
-            Debug.Log("2");
             if (GameManager.Instance.bossOneDead == false)
             {
-                Debug.Log("3");
                 counter += Time.deltaTime;
 
                 float t = Mathf.PingPong(counter / duration, 1f);

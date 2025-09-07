@@ -7,7 +7,8 @@ public class SineProjectile : MonoBehaviour
     public float amplitude;
     public float frequency;
 
-    public int bounces;
+    private int bounces;
+    public int Maxbounces;
 
     private Vector2 startPos;
     private Vector3 moveDirection;
@@ -30,7 +31,7 @@ public class SineProjectile : MonoBehaviour
        transform.position += moveDirection * speed * Time.deltaTime;
 
 
-        if (bounces >= 3)
+        if (bounces >= Maxbounces)
         {
             Destroy(gameObject);
         }
@@ -38,13 +39,6 @@ public class SineProjectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            //do damage
-
-            //sound effect/screenshake WHATEVER TELLS THE PLAYER HE GOT DAMAGED
-        }
-
         if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Floor"))
         {
             Vector2 normal = collision.contacts[0].normal;
@@ -54,6 +48,19 @@ public class SineProjectile : MonoBehaviour
             bounces++;
         }
 
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("1");
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                Debug.Log("2");
+                var hp = collision.gameObject.GetComponent<PlayerHealth>();
+                if (hp != null) hp.Damage(1);
+            }
+        }
     }
 
 }
