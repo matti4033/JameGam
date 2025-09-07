@@ -108,7 +108,7 @@ MonoBehaviour:
   speed: 3
   amplitude: 2.86
   frequency: 2
-  Maxbounces: 7
+  Maxbounces: 5
 --- !u!50 &7458973286617413601
 Rigidbody2D:
   serializedVersion: 5
@@ -255,7 +255,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.89}
+    oldSize: {x: 1.01, y: 0.89}
     newSize: {x: 1, y: 0.89}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
