@@ -25,6 +25,9 @@ public class BossThree : BaseBoss
     public float stringPhaseDuration = 10f;
     public float stringExtendDelay = 0.5f;
 
+    public override float PhaseDuration => stringPhaseDuration;
+
+
     private List<StringProjectile> activeStrings = new List<StringProjectile>();
     private int stringShootIndex = 0;
 
@@ -36,6 +39,7 @@ public class BossThree : BaseBoss
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         sr = GetComponent<SpriteRenderer>();
+        maxPhaseCycles = 1;
 
         StartBossPhases();
     }

@@ -15,6 +15,9 @@ public class BossOne : BaseBoss
 
     private SpriteRenderer sr;
 
+    public override float PhaseDuration => attackPhaseDuration;
+
+
     public float attackTimer;
 
     protected override void Start()
@@ -23,6 +26,8 @@ public class BossOne : BaseBoss
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         sr = GetComponent<SpriteRenderer>();
+
+        maxPhaseCycles = 1;
 
         StartBossPhases();
     }

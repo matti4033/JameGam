@@ -26,6 +26,9 @@ public abstract class BaseBoss : MonoBehaviour
 
     public Action<BaseBoss> OnBossDefeated;
 
+    public event Action OnRecovered;
+    public abstract float PhaseDuration { get; }
+
     protected virtual void Start()
     {
     }
@@ -61,6 +64,8 @@ public abstract class BaseBoss : MonoBehaviour
             Debug.Log($"{bossName} wakes up!");
             isTired = false;
             phaseCount = 0;
+            OnRecovered?.Invoke();
+
 
             StartBossPhases();
         }

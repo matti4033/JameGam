@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+
 
 public class BossManager : MonoBehaviour
 {
@@ -13,6 +15,11 @@ public class BossManager : MonoBehaviour
     private bool doOnce = false;
     public TMP_Text cleanseprompt;
 
+    public Slider bossTimerSlider;
+
+    private float cycleTimer;
+    private float maxCycleTime;
+
     public void StartBossFight()
     {
         StartCoroutine(SpawnBoss());
@@ -21,10 +28,21 @@ public class BossManager : MonoBehaviour
 
     public void Update()
     {
-        if(activeBoss.IsTired) cleanseprompt.gameObject.SetActive(true);
-        
-        if(!activeBoss.IsTired) cleanseprompt.gameObject.SetActive(false);
+        if (activeBoss == null) return;
+
+        cleanseprompt.gameObject.SetActive(activeBoss.IsTired);
+
+        if (!activeBoss.IsTired)
+        {
+            cycleTimer -= Time.deltaTime;
+            bossTimerSlider.value = cycleTimer / maxCycleTime;
+        }
+        else
+        {
+            bossTimerSlider.value = 1f;
+        }
     }
+
     IEnumerator SpawnBoss()
     {
         yield return new WaitForSeconds(bossSpawnTimer);
@@ -33,10 +51,19 @@ public class BossManager : MonoBehaviour
             Vector3 startPos = spawnPos.position;
             activeBoss = Instantiate(bossPrefab, startPos, Quaternion.identity);
             activeBoss.OnBossDefeated += HandleBossDefeated;
+            maxCycleTime = activeBoss.PhaseDuration;
+            cycleTimer = maxCycleTime;
+
+            activeBoss.OnRecovered += ResetCycleTimer;
             doOnce = true;
         }
         Debug.Log("Boss fight started!");
         timer = 0;
+    }
+    private void ResetCycleTimer()
+    {
+        cycleTimer = maxCycleTime;
+        bossTimerSlider.value = 1f;
     }
 
     private void HandleBossDefeated(BaseBoss boss)

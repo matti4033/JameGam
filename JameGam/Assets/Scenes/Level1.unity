@@ -1102,6 +1102,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 70095138466769016, guid: 27a4c0764f1769a49a4aaf0ecb3f27e0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 70095138466769016, guid: 27a4c0764f1769a49a4aaf0ecb3f27e0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 115651715161936517, guid: 27a4c0764f1769a49a4aaf0ecb3f27e0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.0095
@@ -1247,9 +1255,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 176286596636817609, guid: 26a394256d89d4145a07688d533040c6, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093364586354778939, guid: 26a394256d89d4145a07688d533040c6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8833982095202197380, guid: 26a394256d89d4145a07688d533040c6, type: 3}
       propertyPath: m_Name
       value: Pause Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8833982095202197380, guid: 26a394256d89d4145a07688d533040c6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

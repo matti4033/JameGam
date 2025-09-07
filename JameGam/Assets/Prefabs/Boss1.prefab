@@ -90,7 +90,7 @@ MonoBehaviour:
   - {fileID: 5766082614384469166, guid: dfd38365fbad80d4194ff9f104518b3f, type: 3}
   shootPoint: {fileID: 2431873547980273767}
   attackCD: 0.5
-  attackPhaseDuration: 5
+  attackPhaseDuration: 15
   normal: {fileID: 918234464441281761, guid: 00837ffc8a4cde04499e16b23e752acd, type: 3}
   tired: {fileID: -9095231568129689220, guid: 9761c5db538c2d84791add95cadc457e, type: 3}
   attackTimer: 3

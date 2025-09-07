@@ -18,6 +18,9 @@ public class BossTwo : BaseBoss
     [SerializeField] private Sprite normal;
     [SerializeField] private Sprite tired;
 
+    public override float PhaseDuration => phaseDuration;
+
+
     private SpriteRenderer sr;
 
     private List<StringProjectile> activeStrings = new List<StringProjectile>();
@@ -31,6 +34,8 @@ public class BossTwo : BaseBoss
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
         sr = GetComponent<SpriteRenderer>();
+
+        maxPhaseCycles = 1;
 
         StartBossPhases();
     }
