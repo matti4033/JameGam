@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: bpm
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: -6327569983724813390, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
+      propertyPath: tokenSpawnChance
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1251808771433537105, guid: aaef0752f6ec3044096faee20fb24d2e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.418415
@@ -836,6 +840,10 @@ PrefabInstance:
     - target: {fileID: 151661122605407828, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
       propertyPath: checkRadius
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 151661122605407828, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
+      propertyPath: jumpVelocity
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4066050547092939371, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
       propertyPath: m_LocalPosition.x
