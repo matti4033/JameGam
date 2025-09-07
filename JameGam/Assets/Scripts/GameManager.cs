@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
     public bool dead = false;
 
     public TMP_Text playerHeartText;
-    public int playerHealth = 3;
+    public int playerHealth;
 
     private void Awake()
     {
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        playerHealth = 3;
+        playerHealth = 20;
     }
 
     private void Update()

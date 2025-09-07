@@ -3,11 +3,11 @@ using UnityEngine;
 public class DamagePlayer : MonoBehaviour
 {
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            var hp = other.gameObject.GetComponent<PlayerHealth>();
+            var hp = collision.gameObject.GetComponent<PlayerHealth>();
             if (hp != null) hp.Damage(1);
         }
     }

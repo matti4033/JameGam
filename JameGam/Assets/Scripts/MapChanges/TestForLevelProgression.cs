@@ -31,11 +31,11 @@ public class TestForLevelProgression : MonoBehaviour
         }
         if (GameManager.Instance.bossesdead >= 3)
         {
-            Level2.GetComponentInChildren<Renderer>().material.SetFloat("_Boss", 1f);
+            Level3.GetComponentInChildren<Renderer>().material.SetFloat("_Boss", 1f);
         }
         else
         {
-            Level2.GetComponentInChildren<Renderer>().material.SetFloat("_Boss", 0f);
+            Level3.GetComponentInChildren<Renderer>().material.SetFloat("_Boss", 0f);
         }
 
     }

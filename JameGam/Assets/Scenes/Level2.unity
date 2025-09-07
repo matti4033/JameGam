@@ -845,6 +845,10 @@ PrefabInstance:
       propertyPath: jumpVelocity
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1747788299150146276, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4066050547092939371, guid: 28b4aeb73499cd04398b4e46a83d91d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.63

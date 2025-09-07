@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28670b26c01f4c4f9ad44ec634766c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHP: 3
+  startingHP: 30
   capToMax: 0
   maxHP: 999
   onHealthChanged:

@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [Header("Starting")] public int startingHP = 3;
+    [Header("Starting")] public int startingHP = 20;
 
     [Header("Limits")] public bool capToMax = false; // if true, current HP will never exceed maxHP
     public int maxHP = 999; // only used when capToMax = true
@@ -83,7 +83,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // Call this when the boss spawns, adds +2 to current health
-    public void ApplyBossBonus(int bonus = 2)
+    public void ApplyBossBonus(int bonus = 5)
     {
         Heal(bonus);
     }

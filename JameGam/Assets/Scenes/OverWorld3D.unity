@@ -2664,44 +2664,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4128798626983781056, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5283968069265172174, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 278.0276
-      objectReference: {fileID: 0}
-    - target: {fileID: 5283968069265172174, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 245
-      objectReference: {fileID: 0}
-    - target: {fileID: 5283968069265172174, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 580.9858
-      objectReference: {fileID: 0}
-    - target: {fileID: 6936615332019907828, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
-      propertyPath: m_text
-      value: 'You managed to cleanse the guitars and return them to normal energy!
-
-        Move
-        around the level as you wish!
-
-
-        Return to Main Menu: Press Space'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6936615332019907828, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
-      propertyPath: m_fontSize
-      value: 48
-      objectReference: {fileID: 0}
-    - target: {fileID: 6936615332019907828, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 48
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 607263195974962862, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
-    - {fileID: 4187300116191500278, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b5060bb6868724428d1431d9566e70b, type: 3}

@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 194.92}
-  m_SizeDelta: {x: 1160.2933, y: 257.8391}
+  m_AnchoredPosition: {x: 245, y: 580.9858}
+  m_SizeDelta: {x: 1160.2933, y: 278.0276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6313303736455934109
 CanvasRenderer:
@@ -65,7 +65,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CLEASED FINISHED
+  m_text: 'You managed to cleanse the guitars and return them to normal energy!
+
+    Move
+    around the level as you wish!
+
+
+    Return to Main Menu: Press Space'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -92,8 +98,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 104
-  m_fontSizeBase: 104
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -329,7 +335,7 @@ MonoBehaviour:
   GameDoneZooooooo: 0
   dead: 0
   playerHeartText: {fileID: 8837360483962924566}
-  playerHealth: 0
+  playerHealth: 20
 --- !u!1 &6640844847993444648
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,8 +473,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1083.2761, y: 579.35}
-  m_SizeDelta: {x: 65.4478, y: 100.7}
+  m_AnchoredPosition: {x: -929.2688, y: 579.35}
+  m_SizeDelta: {x: 373.4626, y: 100.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6914005652919617726
 CanvasRenderer:
@@ -508,7 +514,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1095,7 +1101,9 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7251161869392307573, guid: a7b0548eed5b1ae4f92a23471cafac6d, type: 3}
+    - {fileID: 6255610523882503213, guid: a7b0548eed5b1ae4f92a23471cafac6d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7195944291828068185, guid: a7b0548eed5b1ae4f92a23471cafac6d, type: 3}
       insertIndex: -1

@@ -129,7 +129,7 @@ public class MapPlayerController : MonoBehaviour
         //If correct boss is killed for previous lvl you're allowed to enter
         if (collision.tag == "LevelThree" && GameManager.Instance.bossesdead == 2)
         {
-            Level2Entrence = true;
+            Level3Entrence = true;
             enterLevelText.SetActive(true);
         }
         //If not prompt to go to another level
