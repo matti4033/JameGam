@@ -252,9 +252,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 965028574039698614, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
+      propertyPath: topY
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 965028574039698614, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
+      propertyPath: bottomY
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 965028574039698614, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
+      propertyPath: waveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 965028574039698614, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
       propertyPath: tokenPrefab
       value: 
       objectReference: {fileID: 1214659129735923178, guid: 4eb520f461eb78d4e88f26d37e604b75, type: 3}
+    - target: {fileID: 965028574039698614, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
+      propertyPath: waveLifePadding
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3761059086442199675, guid: 74fff7dcc9b53b447ba85c878f3fdb01, type: 3}
       propertyPath: m_Name
       value: MixedMusicHazardsDirector
@@ -493,6 +509,10 @@ PrefabInstance:
     - target: {fileID: 1333211381773029175, guid: a2abbd691bc0bff4e8760ae236e66106, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2904318020481559311, guid: a2abbd691bc0bff4e8760ae236e66106, type: 3}
+      propertyPath: target
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2904318020481559311, guid: a2abbd691bc0bff4e8760ae236e66106, type: 3}
       propertyPath: puzzleManager

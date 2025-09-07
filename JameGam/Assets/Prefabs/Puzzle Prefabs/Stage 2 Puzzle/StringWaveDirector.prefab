@@ -106,7 +106,7 @@ MonoBehaviour:
   stepsToRun: 64
   tokenPrefab: {fileID: 1214659129735923178, guid: 4eb520f461eb78d4e88f26d37e604b75, type: 3}
   tokensUntilGoal: 1
-  tokenSpawnChance: 0.55
+  tokenSpawnChance: 0.051
   minStepsBetweenToken: 2
   tokenOffset: {x: 0, y: 0}
   tokenSlideSpeedMul: 1
