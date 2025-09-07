@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
 
         playerHeartText.text = playerHealth.ToString();
 
-        if(bossesdead >= 3)
+        if(bossesdead >= 3 && SceneManager.GetActiveScene().buildIndex == 1)
         {
             Time.timeScale = 0f;
             gameFinishedMenu.SetActive(true);

@@ -101,6 +101,11 @@ public class MapPlayerController : MonoBehaviour
         {
             SceneManager.LoadScene("Level3");
         }
+
+        if (GameManager.Instance.bossThreeDead)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

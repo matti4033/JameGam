@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7458973286617413601}
   - component: {fileID: 1481421709271676360}
   - component: {fileID: 7816249665165524086}
-  - component: {fileID: -9011848371000762506}
   - component: {fileID: 4784017392586977090}
   m_Layer: 11
   m_Name: Note1_0
@@ -204,19 +203,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.89}
   m_EdgeRadius: 0
---- !u!114 &-9011848371000762506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9067773500991065964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ce3749049002c64986f06f8974976de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!61 &4784017392586977090
 BoxCollider2D:
   m_ObjectHideFlags: 0
