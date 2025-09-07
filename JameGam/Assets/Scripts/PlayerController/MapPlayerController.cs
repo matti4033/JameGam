@@ -13,6 +13,10 @@ public class MapPlayerController : MonoBehaviour
     private bool Level3Entrence;
 
     [SerializeField] GameObject enterLevelText;
+    [SerializeField] GameObject goLevel1;
+    [SerializeField] GameObject goLevel2;
+
+
     [SerializeField] GameObject spriteIsak;
     [SerializeField] Sprite spriteTHIS;
 
@@ -102,26 +106,37 @@ public class MapPlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        enterLevelText.SetActive(true);
-
-        if (collision.tag == "LevelOne")
+        if (collision.tag == "LevelOne" && GameManager.Instance.bossesdead == 0)
         {
             Level1Entrence = true;
-
+            enterLevelText.SetActive(true);
         }
-        if (collision.tag == "LevelTwo")
+        if (collision.tag == "LevelTwo" && GameManager.Instance.bossesdead == 1)
         {
             Level2Entrence = true;
-
+            enterLevelText.SetActive(true);
         }
+        else if (GameManager.Instance.bossesdead < 1)
+            goLevel1.SetActive(true);
+
+        if (collision.tag == "LevelThree" && GameManager.Instance.bossesdead == 2)
+        {
+            Level2Entrence = true;
+            enterLevelText.SetActive(true);
+        }
+        else if (GameManager.Instance.bossesdead < 2)
+            goLevel2.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         enterLevelText.SetActive(false);
+        goLevel1.SetActive(false);
+        goLevel2.SetActive(false);
 
         Level1Entrence = false;
         Level2Entrence = false;
+        Level3Entrence = false;
     }
 
 }
