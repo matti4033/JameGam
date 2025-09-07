@@ -107,7 +107,7 @@ MonoBehaviour:
   speed: 7
   amplitude: 4.4
   frequency: 5.73
-  Maxbounces: 7
+  Maxbounces: 5
 --- !u!50 &2339153999895574147
 Rigidbody2D:
   serializedVersion: 5

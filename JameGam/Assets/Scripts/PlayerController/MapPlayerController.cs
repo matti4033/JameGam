@@ -128,10 +128,11 @@ public class MapPlayerController : MonoBehaviour
             enterLevelText.SetActive(true);
         }
         //If not prompt to go to another level
-        else if (collision.tag == "LevelThree" && GameManager.Instance.bossesdead < 2)
-            goLevel2.SetActive(true);
         else if (collision.tag == "LevelThree" && GameManager.Instance.bossesdead < 1)
             goLevel1.SetActive(true);
+        else if (collision.tag == "LevelThree" && GameManager.Instance.bossesdead < 2)
+            goLevel2.SetActive(true);
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
