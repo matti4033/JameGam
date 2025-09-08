@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss2BG2_0 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6832266936911905358, guid: 49c0112f795c68947b3da6b62cf37a38, type: 3}
+      propertyPath: m_SortingOrder
+      value: -50
+      objectReference: {fileID: 0}
     - target: {fileID: 7311043688939409353, guid: 49c0112f795c68947b3da6b62cf37a38, type: 3}
       propertyPath: m_LocalScale.y
       value: 11.4065
@@ -923,6 +927,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1821397391335964240, guid: 4efc15c1d47253646aad3f47daa0ab2c, type: 3}
+      propertyPath: m_SortingOrder
+      value: -50
+      objectReference: {fileID: 0}
     - target: {fileID: 4618964091788862389, guid: 4efc15c1d47253646aad3f47daa0ab2c, type: 3}
       propertyPath: m_Name
       value: Boss2BG1_0 (1)
@@ -2232,6 +2240,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1821397391335964240, guid: 4efc15c1d47253646aad3f47daa0ab2c, type: 3}
+      propertyPath: m_SortingOrder
+      value: -50
+      objectReference: {fileID: 0}
     - target: {fileID: 4618964091788862389, guid: 4efc15c1d47253646aad3f47daa0ab2c, type: 3}
       propertyPath: m_Name
       value: Boss2BG1_0
@@ -2366,6 +2378,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss2BG2_0
       objectReference: {fileID: 0}
+    - target: {fileID: 6832266936911905358, guid: 49c0112f795c68947b3da6b62cf37a38, type: 3}
+      propertyPath: m_SortingOrder
+      value: -50
+      objectReference: {fileID: 0}
     - target: {fileID: 7311043688939409353, guid: 49c0112f795c68947b3da6b62cf37a38, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.3
@@ -2419,6 +2435,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 70095138466769016, guid: 27a4c0764f1769a49a4aaf0ecb3f27e0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 70095138466769016, guid: 27a4c0764f1769a49a4aaf0ecb3f27e0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 115651715161936517, guid: 27a4c0764f1769a49a4aaf0ecb3f27e0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.17125
